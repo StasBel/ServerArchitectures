@@ -24,16 +24,20 @@ class ThreadPoolTCPServer extends TCPServer {
     @Override
     public void start() {
         while (!serverSocket.isClosed()) {
-            try (final Socket socket = serverSocket.accept()) {
+            try {
+                final Socket socket = serverSocket.accept();
+
                 threadPool.submit(() -> {
                     while (!socket.isClosed()) {
                         try {
                             handleRequest(socket);
                         } catch (IOException e) {
-                            LOGGER.warning("Transfer data failed!");
+                            // LOGGER.warning("Finish dealing with connection or exception!");
+                            break;
                         }
                     }
                 });
+
             } catch (IOException e) {
                 LOGGER.warning("Connection failed!");
             }

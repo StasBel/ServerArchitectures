@@ -19,8 +19,10 @@ class SingleThreadTCPServer extends TCPServer {
     @Override
     public void start() {
         while (!serverSocket.isClosed()) {
-            try (final Socket socket = serverSocket.accept()) {
-                handleRequest(socket);
+            try {
+                try (final Socket socket = serverSocket.accept()) {
+                    handleRequest(socket);
+                }
             } catch (IOException e) {
                 LOGGER.warning("Connection failed!");
             }

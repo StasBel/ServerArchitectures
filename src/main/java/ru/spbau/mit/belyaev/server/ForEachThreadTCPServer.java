@@ -27,7 +27,7 @@ class ForEachThreadTCPServer extends TCPServer {
                         try {
                             handleRequest(socket);
                         } catch (IOException e) {
-                            // LOGGER.warning("Finish dealing with connection!");
+                            // LOGGER.warning("Finish dealing with connection or exception!");
                             break;
                         }
                     }

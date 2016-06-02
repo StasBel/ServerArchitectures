@@ -2,6 +2,7 @@ package ru.spbau.mit.belyaev.server;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import ru.spbau.mit.belyaev.Message;
+import ru.spbau.mit.belyaev.util.TimeInterval;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -84,7 +85,14 @@ class NonBlockingTCPServer extends Server {
 
     private void prepareAnswer(RequestContext requestContext) throws InvalidProtocolBufferException {
         final Message.Query query = Message.Query.parseFrom(requestContext.count.put(requestContext.nums).array());
+
+        final TimeInterval requestTime = new TimeInterval();
+
+        requestTime.start();
         final Message.Answer answerPacket = handleQueryAndGetAnswer(query);
+        requestTime.stop();
+
+        requestHandlingStat.add(requestTime);
 
         synchronized (requestContext.lock) {
             requestContext.answerPacket = answerPacket;
@@ -111,6 +119,11 @@ class NonBlockingTCPServer extends Server {
         final RequestContext requestContext = (RequestContext) key.attachment();
 
         if (requestContext.count.hasRemaining()) {
+            if (requestContext.count.remaining() == requestContext.count.capacity()) {
+                // старт обработки 1 запроса
+                requestContext.clientTime.start();
+            }
+
             socketChannel.read(requestContext.count);
 
             if (!requestContext.count.hasRemaining()) {
@@ -160,12 +173,17 @@ class NonBlockingTCPServer extends Server {
             socketChannel.write(requestContext.answer);
 
             if (!requestContext.answer.hasRemaining()) {
+                // конец обработки одного запроса
+                requestContext.clientTime.stop();
+                clientHandlingStat.add(requestContext.clientTime);
+
                 requestContext.refreshWriting();
             }
         }
     }
 
     private static class RequestContext {
+        private final TimeInterval clientTime;
         private final ByteBuffer count;
         private final Object lock;
         private ByteBuffer nums;
@@ -173,6 +191,7 @@ class NonBlockingTCPServer extends Server {
         private Message.Answer answerPacket;
 
         private RequestContext() {
+            clientTime = new TimeInterval();
             count = ByteBuffer.allocate(INTEGER_SIZE);
             lock = new Object();
             nums = null;
