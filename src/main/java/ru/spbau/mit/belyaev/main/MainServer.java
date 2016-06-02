@@ -4,6 +4,7 @@ import ru.spbau.mit.belyaev.server.Server;
 import ru.spbau.mit.belyaev.server.ServerFactory;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,10 +16,11 @@ import java.util.logging.Logger;
  */
 
 public class MainServer {
+    public static final int TEST_SERVER_PORT_NUMBER = 6667;
     static final int MAIN_SERVER_PORT_NUMBER = 6666;
-    static final int TEST_SERVER_PORT_NUMBER = 6667;
+    static final byte OK = 0;
+    private static final byte BAD = 1;
     private static final Logger LOGGER = Logger.getLogger(MainServer.class.getName());
-
     private final ServerSocket serverSocket;
     private Server server;
 
@@ -60,18 +62,32 @@ public class MainServer {
 
     private void handleRequest(Socket socket) throws IOException {
         final DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
-        // final DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+        final DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
         switch (RequestType.buildRequestType(dataInputStream.readInt())) {
             case START_SERVER:
                 final Server.Type serverType = Server.Type.buildServerType(dataInputStream.readInt());
-                server = ServerFactory.buildServer(serverType, TEST_SERVER_PORT_NUMBER);
+                server = ServerFactory.buildServer(serverType);
+
                 new Thread(() -> {
                     server.start();
                 }).start();
+
+                dataOutputStream.writeByte(OK);
+                dataOutputStream.flush();
+
                 break;
             case STOP_SERVER:
                 server.stop();
+
+                dataOutputStream.writeByte(OK);
+                dataOutputStream.flush();
+
+                break;
+            default:
+                dataOutputStream.writeByte(BAD);
+                dataOutputStream.flush();
+
                 break;
         }
     }

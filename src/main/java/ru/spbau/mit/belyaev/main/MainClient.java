@@ -5,11 +5,11 @@ import ru.spbau.mit.belyaev.client.ClientFactory;
 import ru.spbau.mit.belyaev.server.Server;
 import ru.spbau.mit.belyaev.util.Util;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 /**
@@ -41,10 +41,7 @@ public class MainClient {
 
             mainClient.startTestServer(Server.Type.TCP_FOR_EACH_THREAD);
 
-            Util.waitForA(5000);
-
-            final Client client = ClientFactory.buildClient(Server.Type.TCP_FOR_EACH_THREAD, "localhost",
-                    MainServer.TEST_SERVER_PORT_NUMBER, 10, 0, 1);
+            final Client client = ClientFactory.buildClient(Server.Type.TCP_FOR_EACH_THREAD, "localhost", 10, 0, 1);
             client.doQueries();
 
             final long workingTime = client.getWorkingTime();
@@ -61,18 +58,24 @@ public class MainClient {
         socket.close();
     }
 
-    private void startTestServer(Server.Type serverType) throws IOException {
+    private boolean startTestServer(Server.Type serverType) throws IOException {
+        final DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
         final DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
         dataOutputStream.writeInt(MainServer.RequestType.START_SERVER.ordinal());
         dataOutputStream.writeInt(serverType.ordinal());
         dataOutputStream.flush();
+
+        return dataInputStream.readByte() == MainServer.OK;
     }
 
-    private void stopTestServer() throws IOException {
+    private boolean stopTestServer() throws IOException {
+        final DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
         final DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
         dataOutputStream.writeInt(MainServer.RequestType.STOP_SERVER.ordinal());
         dataOutputStream.flush();
+
+        return dataInputStream.readByte() == MainServer.OK;
     }
 }

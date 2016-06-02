@@ -1,5 +1,6 @@
 package ru.spbau.mit.belyaev.client;
 
+import ru.spbau.mit.belyaev.main.MainServer;
 import ru.spbau.mit.belyaev.server.Server;
 
 import java.util.function.Supplier;
@@ -18,8 +19,25 @@ public class ClientFactory {
         return () -> buildClient(serverType, ipAddress, port, arrayLength, timeDelay, queriesCount);
     }
 
+    public static Supplier<Client> buildClientFactory(final Server.Type serverType, String ipAddress,
+                                                      int arrayLength, long timeDelay, int queriesCount) {
+        return () -> buildClient(serverType, ipAddress, MainServer.TEST_SERVER_PORT_NUMBER,
+                arrayLength, timeDelay, queriesCount);
+    }
+
     public static Client buildClient(final Server.Type serverType, String ipAddress, int port,
                                      int arrayLength, long timeDelay, int queriesCount) {
+        return getClient(serverType, ipAddress, port, arrayLength, timeDelay, queriesCount);
+    }
+
+    public static Client buildClient(final Server.Type serverType, String ipAddress,
+                                     int arrayLength, long timeDelay, int queriesCount) {
+        return getClient(serverType, ipAddress, MainServer.TEST_SERVER_PORT_NUMBER,
+                arrayLength, timeDelay, queriesCount);
+    }
+
+    private static Client getClient(final Server.Type serverType, String ipAddress, int port,
+                                    int arrayLength, long timeDelay, int queriesCount) {
         switch (serverType) {
             case TCP_FOR_EACH_THREAD:
                 return new TCPClient(ipAddress, port, arrayLength, timeDelay, queriesCount);

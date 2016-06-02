@@ -1,5 +1,7 @@
 package ru.spbau.mit.belyaev.server;
 
+import ru.spbau.mit.belyaev.main.MainServer;
+
 import java.io.IOException;
 
 /**
@@ -9,6 +11,14 @@ import java.io.IOException;
 
 public class ServerFactory {
     public static Server buildServer(Server.Type serverType, int port) throws IOException {
+        return getServer(serverType, port);
+    }
+
+    public static Server buildServer(Server.Type serverType) throws IOException {
+        return getServer(serverType, MainServer.TEST_SERVER_PORT_NUMBER);
+    }
+
+    private static Server getServer(Server.Type serverType, int port) throws IOException {
         switch (serverType) {
             case TCP_FOR_EACH_THREAD:
                 return new ForEachThreadTCPServer(port);

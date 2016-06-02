@@ -2,6 +2,9 @@ package ru.spbau.mit.belyaev.util;
 
 import ru.spbau.mit.belyaev.Message;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.Arrays;
 
 /**
@@ -35,5 +38,13 @@ public class Util {
     public static void printAnswer(Message.Answer answer) {
         System.out.println(answer.getCount());
         System.out.println(Arrays.toString(answer.getNumList().toArray()));
+    }
+
+    public static Message.Query parseQuery(Socket socket) throws IOException { // socket -> query
+        return Message.Query.parseFrom(new DataInputStream(socket.getInputStream()));
+    }
+
+    public static Message.Answer parseAnswer(Socket socket) throws IOException { // socket -> answer
+        return Message.Answer.parseFrom(new DataInputStream(socket.getInputStream()));
     }
 }

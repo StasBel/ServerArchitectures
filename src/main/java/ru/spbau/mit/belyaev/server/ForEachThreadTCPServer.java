@@ -14,15 +14,19 @@ class ForEachThreadTCPServer extends TCPServer {
 
     ForEachThreadTCPServer(int port) throws IOException {
         super(port);
+        LOGGER.info("CONSTRUCTPOP");
     }
 
     @Override
     public void start() {
         while (!serverSocket.isClosed()) {
             try (final Socket socket = serverSocket.accept()) {
+                LOGGER.info("CONSTRSD");
                 new Thread(() -> {
+                    LOGGER.info("Start threaD");
                     while (!socket.isClosed()) {
                         try {
+                            LOGGER.info("HERE!!!");
                             handleRequest(socket);
                         } catch (IOException e) {
                             LOGGER.warning("Transfer data failed!");
