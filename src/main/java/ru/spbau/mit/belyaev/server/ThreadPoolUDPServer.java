@@ -1,5 +1,7 @@
 package ru.spbau.mit.belyaev.server;
 
+import ru.spbau.mit.belyaev.util.TimeInterval;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.SocketException;
@@ -29,13 +31,17 @@ class ThreadPoolUDPServer extends UDPServer {
             try {
                 final DatagramPacket datagramPacket = receivePacket();
 
+                final TimeInterval clientTime = new TimeInterval();
+                clientTime.start();
+
                 threadPool.submit(() -> {
                     try {
-                        handleRequest(datagramPacket);
+                        handleRequest(datagramPacket, clientTime);
                     } catch (IOException e) {
-                        LOGGER.warning("Transfer data failed!");
+                        // LOGGER.warning("Finish dealing with connection or exception!");
                     }
                 });
+
             } catch (IOException e) {
                 LOGGER.warning("Connection failed!");
             }

@@ -1,12 +1,13 @@
 package ru.spbau.mit.belyaev.server;
 
 import ru.spbau.mit.belyaev.Message;
+import ru.spbau.mit.belyaev.util.TimeInterval;
+import ru.spbau.mit.belyaev.util.Util;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.nio.ByteBuffer;
 
 /**
  * Created by belaevstanislav on 01.06.16.
@@ -36,17 +37,20 @@ public abstract class UDPServer extends Server {
         return datagramPacket;
     }
 
-    void handleRequest(DatagramPacket datagramPacket) throws IOException {
-        final Message.Query query = Message.Query.parseFrom(datagramPacket.getData());
-        final Message.Answer answer = handleQueryAndGetAnswer(query);
+    void handleRequest(DatagramPacket datagramPacket, TimeInterval clientTime) throws IOException {
+        final TimeInterval requestTime = new TimeInterval();
 
-        final ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
-        byteBuffer.put(answer.toByteArray());
-        final DatagramPacket answerDatagramPacket = new DatagramPacket(
-                byteBuffer.array(),
-                byteBuffer.array().length,
-                datagramPacket.getSocketAddress()
-        );
-        datagramSocket.send(answerDatagramPacket);
+        clientTime.start();
+        final Message.Query query = Util.parseQuery(datagramSocket, buffer);
+
+        requestTime.start();
+        final Message.Answer answer = handleQueryAndGetAnswer(query);
+        requestTime.stop();
+
+        Util.sendAnswer(datagramSocket, datagramPacket.getSocketAddress(), buffer, answer);
+        clientTime.stop();
+
+        clientHandlingStat.add(clientTime);
+        requestHandlingStat.add(requestTime);
     }
 }
