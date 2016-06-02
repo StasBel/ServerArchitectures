@@ -16,12 +16,12 @@ public class ClientFactory {
 
     public static Supplier<Client> buildClientFactory(final Server.Type serverType, String ipAddress, int port,
                                                       int arrayLength, long timeDelay, int queriesCount) {
-        return () -> buildClient(serverType, ipAddress, port, arrayLength, timeDelay, queriesCount);
+        return () -> getClient(serverType, ipAddress, port, arrayLength, timeDelay, queriesCount);
     }
 
     public static Supplier<Client> buildClientFactory(final Server.Type serverType, String ipAddress,
                                                       int arrayLength, long timeDelay, int queriesCount) {
-        return () -> buildClient(serverType, ipAddress, MainServer.TEST_SERVER_PORT_NUMBER,
+        return () -> getClient(serverType, ipAddress, MainServer.TEST_SERVER_PORT_NUMBER,
                 arrayLength, timeDelay, queriesCount);
     }
 

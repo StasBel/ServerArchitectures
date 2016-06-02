@@ -5,7 +5,11 @@ import ru.spbau.mit.belyaev.Message;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Socket;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
@@ -42,11 +46,11 @@ public class Util {
     }
 
     public static Message.Query parseQuery(Socket socket) throws IOException { // TCPSocket -> Query
-        return Message.Query.parseFrom(getDataFromOneMessage(socket));
+        return Message.Query.parseFrom(getDataFromOneMessageTCP(socket));
     }
 
     public static Message.Answer parseAnswer(Socket socket) throws IOException { // TCPSocket -> Answer
-        return Message.Answer.parseFrom(getDataFromOneMessage(socket));
+        return Message.Answer.parseFrom(getDataFromOneMessageTCP(socket));
     }
 
     public static void sendQuery(Socket socket, Message.Query query) throws IOException { // Query -> TCPSocket
@@ -63,11 +67,48 @@ public class Util {
         dataOutputStream.flush();
     }
 
-    private static byte[] getDataFromOneMessage(Socket socket) throws IOException {
+    public static Message.Query parseQuery(DatagramSocket datagramSocket, byte[] buffer) throws IOException { // UDPSocket -> Query
+        return Message.Query.parseFrom(getDataFromOneMessageUDP(datagramSocket, buffer));
+    }
+
+    public static Message.Answer parseAnswer(DatagramSocket datagramSocket, byte[] buffer) throws IOException { // UDPSocket -> Answer
+        return Message.Answer.parseFrom(getDataFromOneMessageUDP(datagramSocket, buffer));
+    }
+
+    public static void sendQuery(DatagramSocket datagramSocket, SocketAddress socketAddress, byte[] buffer,
+                                 Message.Query query) throws IOException { // Query -> UDPSocket
+        final ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+        byteBuffer.putInt(query.getSerializedSize());
+        byteBuffer.put(query.toByteArray());
+        final DatagramPacket datagramPacket = new DatagramPacket(byteBuffer.array(), byteBuffer.array().length,
+                socketAddress);
+        datagramSocket.send(datagramPacket);
+    }
+
+    public static void sendAnswer(DatagramSocket datagramSocket, SocketAddress socketAddress, byte[] buffer,
+                                 Message.Answer answer) throws IOException { // Answer -> UDPSocket
+        final ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
+        byteBuffer.putInt(answer.getSerializedSize());
+        byteBuffer.put(answer.toByteArray());
+        final DatagramPacket datagramPacket = new DatagramPacket(byteBuffer.array(), byteBuffer.array().length,
+                socketAddress);
+        datagramSocket.send(datagramPacket);
+    }
+
+    private static byte[] getDataFromOneMessageTCP(Socket socket) throws IOException {
         final DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
         final int size = dataInputStream.readInt();
         final byte[] data = new byte[size];
         dataInputStream.readFully(data);
+        return data;
+    }
+
+    private static byte[] getDataFromOneMessageUDP(DatagramSocket datagramSocket, byte[] buffer) throws IOException {
+        final DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
+        datagramSocket.receive(datagramPacket);
+        final ByteBuffer byteBuffer = ByteBuffer.wrap(datagramPacket.getData());
+        final byte[] data = new byte[byteBuffer.getInt()];
+        byteBuffer.get(data);
         return data;
     }
 }

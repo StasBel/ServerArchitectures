@@ -4,11 +4,9 @@ import ru.spbau.mit.belyaev.Message;
 import ru.spbau.mit.belyaev.util.Util;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
 import java.util.logging.Logger;
 
 import static ru.spbau.mit.belyaev.server.UDPServer.UDP_BUFFER_SIZE;
@@ -31,7 +29,7 @@ class UDPClient extends Client {
 
     @Override
     public void doQueriesWithoutTime() throws IOException {
-        final InetSocketAddress serverAddress = new InetSocketAddress(InetAddress.getByName(ipAddress), port);
+        final InetSocketAddress socketAddress = new InetSocketAddress(InetAddress.getByName(ipAddress), port);
         final DatagramSocket datagramSocket = new DatagramSocket();
         datagramSocket.setSoTimeout(UDP_TIMEOUT);
 
@@ -39,21 +37,12 @@ class UDPClient extends Client {
         while (alreadyDone != queriesCount) {
             final Message.Query query = makeQuery();
 
-            final ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
-            byteBuffer.put(query.toByteArray());
-            final DatagramPacket queryDatagramPacket = new DatagramPacket(
-                    byteBuffer.array(),
-                    byteBuffer.array().length,
-                    serverAddress
-            );
-            datagramSocket.send(queryDatagramPacket);
+            Util.sendQuery(datagramSocket, socketAddress, buffer, query);
 
-            final DatagramPacket answerDatagramPacket = new DatagramPacket(buffer, buffer.length);
-            datagramSocket.receive(answerDatagramPacket);
-            final Message.Answer answer = Message.Answer.parseFrom(answerDatagramPacket.getData());
+            final Message.Answer answer = Util.parseAnswer(datagramSocket, buffer);
 
             if (answer.getCount() != query.getCount()) {
-                LOGGER.severe("Got bad response!");
+                LOGGER.severe("Got bad answer!");
             }
 
             alreadyDone++;

@@ -4,8 +4,6 @@ import ru.spbau.mit.belyaev.Message;
 import ru.spbau.mit.belyaev.util.Util;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.logging.Logger;
@@ -28,20 +26,16 @@ class SingleThreadTCPClient extends Client {
         while (alreadyDone != queriesCount) {
             final Socket socket = new Socket(InetAddress.getByName(ipAddress), port);
 
-            final InputStream inputStream = socket.getInputStream();
-            final OutputStream outputStream = socket.getOutputStream();
-
             final Message.Query query = makeQuery();
 
-            query.writeTo(outputStream);
-            outputStream.flush();
+            Util.sendQuery(socket, query);
 
-            final Message.Answer answer = Message.Answer.parseFrom(inputStream);
+            final Message.Answer answer = Util.parseAnswer(socket);
 
             if (answer.getCount() != query.getCount()) {
-                LOGGER.severe("Got bad response!");
+                LOGGER.severe("Got bad answer!");
             }
-            
+
             socket.close();
 
             alreadyDone++;

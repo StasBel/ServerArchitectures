@@ -69,9 +69,8 @@ public class MainServer {
                 final Server.Type serverType = Server.Type.buildServerType(dataInputStream.readInt());
                 server = ServerFactory.buildServer(serverType);
 
-                new Thread(() -> {
-                    server.start();
-                }).start();
+                new Thread(() -> server.start())
+                        .start();
 
                 dataOutputStream.writeByte(OK);
                 dataOutputStream.flush();
