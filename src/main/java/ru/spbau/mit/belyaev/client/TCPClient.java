@@ -3,9 +3,7 @@ package ru.spbau.mit.belyaev.client;
 import ru.spbau.mit.belyaev.Message;
 import ru.spbau.mit.belyaev.util.Util;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.logging.Logger;
@@ -26,25 +24,17 @@ class TCPClient extends Client {
     public void doQueriesWithoutTime() throws IOException {
         final Socket socket = new Socket(InetAddress.getByName(ipAddress), port);
 
-        // final InputStream inputStream = socket.getInputStream();
-        final OutputStream outputStream = socket.getOutputStream();
-
         int alreadyDone = 0;
         while (alreadyDone != queriesCount) {
             final Message.Query query = makeQuery();
 
-            Util.printQuery(query);
+            Util.sendQuery(socket, query);
 
-            query.writeDelimitedTo(outputStream);
-            // outputStream.flush();
+            final Message.Answer answer = Util.parseAnswer(socket);
 
-            // final Message.Answer answer = Message.Answer.parseFrom(inputStream);
-            // final Message.Answer answer = Util.parseAnswer(socket);
-            final Message.Answer answer = Message.Answer.parseDelimitedFrom(socket.getInputStream());
-
-            /*if (answer.getCount() != query.getCount()) {
+            if (answer.getCount() != query.getCount()) {
                 LOGGER.severe("Got bad response!");
-            }*/
+            }
 
             alreadyDone++;
             if (alreadyDone != queriesCount) {
@@ -52,6 +42,6 @@ class TCPClient extends Client {
             }
         }
 
-        // socket.close();
+        socket.close();
     }
 }

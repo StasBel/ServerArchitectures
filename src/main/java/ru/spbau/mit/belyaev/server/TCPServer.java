@@ -3,7 +3,6 @@ package ru.spbau.mit.belyaev.server;
 import ru.spbau.mit.belyaev.Message;
 import ru.spbau.mit.belyaev.util.Util;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -28,20 +27,10 @@ abstract class TCPServer extends Server {
     }
 
     void handleRequest(Socket socket) throws IOException {
-        final InputStream inputStream = socket.getInputStream();
-        final OutputStream outputStream = socket.getOutputStream();
+        final Message.Query query = Util.parseQuery(socket);
 
-        System.out.println(8);
+        final Message.Answer answer = handleQueryAndGetAnswer(query);
 
-        // final Message.Query query = Message.Query.parseFrom(inputStream);
-        // final Message.Query query = Util.parseQuery(socket);
-        final Message.Query query = Message.Query.parseDelimitedFrom(inputStream);
-
-        Util.printQuery(query);
-
-        // final Message.Answer answer = handleQueryAndGetAnswer(query);
-
-        // answer.writeDelimitedTo(outputStream);
-        // outputStream.flush();
+        Util.sendAnswer(socket, answer);
     }
 }
