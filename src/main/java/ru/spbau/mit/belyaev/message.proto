@@ -1,0 +1,15 @@
+package ru.spbau.mit.belyaev;
+
+option java_package = "ru.spbau.mit.belyaev";
+
+option java_outer_classname = "Message";
+
+message Query {
+    required fixed32 count = 1;
+    repeated fixed32 num = 2 [packed = true];
+}
+
+message Answer {
+    required fixed32 count = 1;
+    repeated fixed32 num = 2 [packed = true];
+}
