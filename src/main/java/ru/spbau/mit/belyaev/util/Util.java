@@ -49,8 +49,22 @@ public class Util {
         return Message.Query.parseFrom(getDataFromOneMessageTCP(socket));
     }
 
+    public static Message.Query parseQuery(Socket socket, TimeInterval timeInterval)
+            throws IOException { // TCPSocket -> Query with time
+        final byte[] data = getDataFromOneMessageTCP(socket);
+        timeInterval.start();
+        return Message.Query.parseFrom(data);
+    }
+
     public static Message.Answer parseAnswer(Socket socket) throws IOException { // TCPSocket -> Answer
         return Message.Answer.parseFrom(getDataFromOneMessageTCP(socket));
+    }
+
+    public static Message.Answer parseAnswer(Socket socket, TimeInterval timeInterval)
+            throws IOException { // TCPSocket -> Answer with time
+        final byte[] data = getDataFromOneMessageTCP(socket);
+        timeInterval.start();
+        return Message.Answer.parseFrom(data);
     }
 
     public static void sendQuery(Socket socket, Message.Query query) throws IOException { // Query -> TCPSocket
@@ -71,8 +85,22 @@ public class Util {
         return Message.Query.parseFrom(getDataFromOneMessageUDP(datagramSocket, buffer));
     }
 
+    public static Message.Query parseQuery(DatagramSocket datagramSocket, byte[] buffer, TimeInterval timeInterval)
+            throws IOException { // UDPSocket -> Query with time
+        final byte[] data = getDataFromOneMessageUDP(datagramSocket, buffer);
+        timeInterval.start();
+        return Message.Query.parseFrom(data);
+    }
+
     public static Message.Answer parseAnswer(DatagramSocket datagramSocket, byte[] buffer) throws IOException { // UDPSocket -> Answer
         return Message.Answer.parseFrom(getDataFromOneMessageUDP(datagramSocket, buffer));
+    }
+
+    public static Message.Answer parseAnswer(DatagramSocket datagramSocket, byte[] buffer, TimeInterval timeInterval)
+            throws IOException { // UDPSocket -> Answer with time
+        final byte[] data = getDataFromOneMessageUDP(datagramSocket, buffer);
+        timeInterval.start();
+        return Message.Answer.parseFrom(data);
     }
 
     public static void sendQuery(DatagramSocket datagramSocket, SocketAddress socketAddress, byte[] buffer,
@@ -86,7 +114,7 @@ public class Util {
     }
 
     public static void sendAnswer(DatagramSocket datagramSocket, SocketAddress socketAddress, byte[] buffer,
-                                 Message.Answer answer) throws IOException { // Answer -> UDPSocket
+                                  Message.Answer answer) throws IOException { // Answer -> UDPSocket
         final ByteBuffer byteBuffer = ByteBuffer.wrap(buffer);
         byteBuffer.putInt(answer.getSerializedSize());
         byteBuffer.put(answer.toByteArray());

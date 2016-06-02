@@ -1,6 +1,7 @@
 package ru.spbau.mit.belyaev.server;
 
 import ru.spbau.mit.belyaev.Message;
+import ru.spbau.mit.belyaev.util.Stat;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -11,6 +12,22 @@ import java.util.stream.Collectors;
  */
 
 public abstract class Server {
+    final Stat clientHandlingStat;
+    final Stat requestHandlingStat;
+
+    Server() {
+        clientHandlingStat = new Stat();
+        requestHandlingStat = new Stat();
+    }
+
+    public long getAverageClientHandling() {
+        return clientHandlingStat.calcAverage();
+    }
+
+    public long getAverageRequestHandling() {
+        return requestHandlingStat.calcAverage();
+    }
+
     public abstract void start();
 
     public abstract void stop() throws IOException;

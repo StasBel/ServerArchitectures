@@ -17,8 +17,8 @@ public abstract class Client {
     final int port;
     final long timeDelay;
     final int queriesCount;
-    private final TimeInterval workingTime;
     private final int arrayLength;
+    private long workingTime;
 
     Client(String ipAddress, int port, int arrayLength, long timeDelay, int queriesCount) {
         this.arrayLength = arrayLength;
@@ -26,19 +26,25 @@ public abstract class Client {
         this.port = port;
         this.timeDelay = timeDelay;
         this.queriesCount = queriesCount;
-        workingTime = new TimeInterval();
+        workingTime = 0;
     }
 
     abstract void doQueriesWithoutTime() throws IOException;
 
     public void doQueries() throws IOException {
+        final TimeInterval workingTime = new TimeInterval();
+
         workingTime.start();
+
         doQueriesWithoutTime();
+
         workingTime.stop();
+
+        this.workingTime = workingTime.getTimeAbs();
     }
 
     public long getWorkingTime() {
-        return workingTime.getTimeAbs();
+        return workingTime;
     }
 
     Message.Query makeQuery() {

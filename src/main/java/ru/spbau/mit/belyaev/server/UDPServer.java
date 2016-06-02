@@ -20,6 +20,7 @@ public abstract class UDPServer extends Server {
     private final byte[] buffer;
 
     UDPServer(int port) throws SocketException {
+        super();
         datagramSocket = new DatagramSocket(port);
         buffer = new byte[UDP_BUFFER_SIZE];
     }
