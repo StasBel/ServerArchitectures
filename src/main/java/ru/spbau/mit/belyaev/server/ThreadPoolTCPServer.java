@@ -39,7 +39,7 @@ class ThreadPoolTCPServer extends TCPServer {
                 });
 
             } catch (IOException e) {
-                LOGGER.warning("Connection failed!");
+                // LOGGER.warning("Connection failed!");
             }
         }
     }

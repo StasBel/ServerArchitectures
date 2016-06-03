@@ -48,10 +48,20 @@ public class MainServer {
 
     private void start() {
         while (!serverSocket.isClosed()) {
-            try (final Socket socket = serverSocket.accept()) {
-                handleRequest(socket);
+            try {
+                final Socket socket = serverSocket.accept();
+
+                while (!socket.isClosed()) {
+                    try {
+                        handleRequest(socket);
+                    } catch (IOException e) {
+                        // LOGGER.warning("Finish dealing with connection or exception!");
+                        break;
+                    }
+                }
+
             } catch (IOException e) {
-                LOGGER.warning("Connection failed!");
+                // LOGGER.warning("Finish dealing with main client!");
             }
         }
     }
@@ -69,8 +79,11 @@ public class MainServer {
                 final Server.Type serverType = Server.Type.buildServerType(dataInputStream.readInt());
                 server = ServerFactory.buildServer(serverType);
 
-                new Thread(() -> server.start())
-                        .start();
+                new Thread(() -> {
+                    server.start();
+                }).start();
+
+                LOGGER.info("Start " + serverType.toString() + " server!");
 
                 dataOutputStream.writeByte(OK);
                 dataOutputStream.flush();
@@ -78,6 +91,8 @@ public class MainServer {
                 break;
             case STOP_SERVER:
                 server.stop();
+
+                LOGGER.info("Stop server!");
 
                 dataOutputStream.writeByte(OK);
                 dataOutputStream.flush();

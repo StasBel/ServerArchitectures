@@ -34,7 +34,7 @@ class ForEachThreadTCPServer extends TCPServer {
                 }).start();
 
             } catch (IOException e) {
-                LOGGER.warning("Connection failed!");
+                // LOGGER.info("Server closing!");
             }
         }
     }

@@ -43,7 +43,7 @@ class ThreadPoolUDPServer extends UDPServer {
                 });
 
             } catch (IOException e) {
-                LOGGER.warning("Connection failed!");
+                // LOGGER.warning("Connection failed!");
             }
         }
     }

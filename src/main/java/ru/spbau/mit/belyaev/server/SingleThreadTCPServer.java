@@ -24,7 +24,7 @@ class SingleThreadTCPServer extends TCPServer {
                     handleRequest(socket);
                 }
             } catch (IOException e) {
-                LOGGER.warning("Connection failed!");
+                // LOGGER.warning("Connection failed!");
             }
         }
     }

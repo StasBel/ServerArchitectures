@@ -3,7 +3,6 @@ package ru.spbau.mit.belyaev.main;
 import ru.spbau.mit.belyaev.client.Client;
 import ru.spbau.mit.belyaev.client.ClientFactory;
 import ru.spbau.mit.belyaev.server.Server;
-import ru.spbau.mit.belyaev.util.Util;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -28,26 +27,32 @@ public class MainClient {
 
     public static void main(String[] args) {
         try {
-            final MainClient mainClient = new MainClient("localhost");
+            final String ipAddress = "localhost";
 
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            final MainClient mainClient = new MainClient(ipAddress);
+
+            /*Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
                     mainClient.stopTestServer();
                     mainClient.stop();
                 } catch (IOException e) {
                     LOGGER.warning("Fail to stop MainClient or TestServer!");
                 }
-            }));
+            }));*/
 
-            mainClient.startTestServer(Server.Type.TCP_FOR_EACH_THREAD);
+            final Server.Type serverType = Server.Type.TCP_FOR_EACH_THREAD;
 
-            final Client client = ClientFactory.buildClient(Server.Type.TCP_FOR_EACH_THREAD, "localhost", 10, 0, 1);
+            mainClient.startTestServer(serverType);
+
+            final Client client = ClientFactory.buildClient(serverType, ipAddress, 100, 10, 5);
             client.doQueries();
 
             final long workingTime = client.getWorkingTime();
             System.out.print(workingTime);
 
-            Util.waitForA(10000);
+            mainClient.stopTestServer();
+
+            mainClient.stop();
         } catch (IOException e) {
             e.printStackTrace();
             LOGGER.warning("Fail to run main client!");

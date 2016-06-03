@@ -37,7 +37,7 @@ class ForEachThreadUDPServer extends UDPServer {
                 }).start();
 
             } catch (IOException e) {
-                LOGGER.warning("Connection failed!");
+                // LOGGER.warning("Connection failed!");
             }
         }
     }
