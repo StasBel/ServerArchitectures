@@ -4,7 +4,6 @@ import ru.spbau.mit.belyaev.Message;
 import ru.spbau.mit.belyaev.util.Stat;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 /**
  * Created by belaevstanislav on 24.05.16.
@@ -33,10 +32,27 @@ public abstract class Server {
     public abstract void stop() throws IOException;
 
     Message.Answer handleQueryAndGetAnswer(Message.Query query) {
-        return Message.Answer.newBuilder()
-                .setCount(query.getCount())
-                .addAllNum(query.getNumList().stream().sorted().collect(Collectors.toList()))
-                .build();
+        final int newCount = query.getCount();
+
+        Integer[] nums = query.getNumList().stream().toArray(Integer[]::new);
+
+        for (int outer = 0; outer < nums.length - 1; outer++) {
+            for (int inner = 0; inner < nums.length - outer - 1; inner++) {
+                if (nums[inner] > nums[inner + 1]) {
+                    int temp = nums[inner];
+                    nums[inner] = nums[inner + 1];
+                    nums[inner + 1] = temp;
+                }
+            }
+        }
+
+        final Message.Answer.Builder builder = Message.Answer.newBuilder().setCount(newCount);
+
+        for (int num : nums) {
+            builder.addNum(num);
+        }
+
+        return builder.build();
     }
 
     public enum Type {

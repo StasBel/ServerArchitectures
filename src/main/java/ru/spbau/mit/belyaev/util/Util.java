@@ -11,6 +11,8 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by belaevstanislav on 02.06.16.
@@ -138,5 +140,16 @@ public class Util {
         final byte[] data = new byte[byteBuffer.getInt()];
         byteBuffer.get(data);
         return data;
+    }
+
+    public static void waitUntilEnd(ExecutorService threadPool) {
+        threadPool.shutdown();
+        while (!threadPool.isTerminated()) {
+            try {
+                threadPool.awaitTermination(100, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

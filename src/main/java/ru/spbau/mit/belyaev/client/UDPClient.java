@@ -18,7 +18,7 @@ import static ru.spbau.mit.belyaev.server.UDPServer.UDP_BUFFER_SIZE;
 
 class UDPClient extends Client {
     private static final Logger LOGGER = Logger.getLogger(UDPClient.class.getName());
-    private static final int UDP_TIMEOUT = 1000;
+    private static final int UDP_TIMEOUT = 2000;
 
     private final byte[] buffer;
 
@@ -31,15 +31,28 @@ class UDPClient extends Client {
     public void doQueriesWithoutTime() throws IOException {
         final InetSocketAddress socketAddress = new InetSocketAddress(InetAddress.getByName(ipAddress), port);
         final DatagramSocket datagramSocket = new DatagramSocket();
+
         datagramSocket.setSoTimeout(UDP_TIMEOUT);
+
+        /*datagramSocket.setReceiveBufferSize(UDP_BUFFER_SIZE);
+        datagramSocket.setSendBufferSize(UDP_BUFFER_SIZE);
+        datagramSocket.setSoTimeout(UDP_TIMEOUT);*/
 
         int alreadyDone = 0;
         while (alreadyDone != queriesCount) {
+            // LOGGER.info("start of round");
+
             final Message.Query query = makeQuery();
+
+            // LOGGER.info("start sending");
 
             Util.sendQuery(datagramSocket, socketAddress, buffer, query);
 
+            // LOGGER.info("send query");
+
             final Message.Answer answer = Util.parseAnswer(datagramSocket, buffer);
+
+            // LOGGER.info("parse query");
 
             if (answer.getCount() != query.getCount()) {
                 LOGGER.severe("Got bad answer!");
@@ -49,6 +62,8 @@ class UDPClient extends Client {
             if (alreadyDone != queriesCount) {
                 Util.waitForA(timeDelay);
             }
+
+            // LOGGER.info("end of round");
         }
 
         datagramSocket.close();

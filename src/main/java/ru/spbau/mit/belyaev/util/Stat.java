@@ -30,4 +30,8 @@ public class Stat {
     public long calcAverage() {
         return allTime.get() / count.get();
     }
+
+    public int getCount() {
+        return count.get();
+    }
 }
