@@ -1,5 +1,6 @@
 package ru.spbau.mit.belyaev.server;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import ru.spbau.mit.belyaev.Message;
 import ru.spbau.mit.belyaev.util.TimeInterval;
 import ru.spbau.mit.belyaev.util.Util;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.nio.ByteBuffer;
 
 /**
  * Created by belaevstanislav on 01.06.16.
@@ -26,6 +28,13 @@ public abstract class UDPServer extends Server {
         buffer = new byte[UDP_BUFFER_SIZE];
     }
 
+    private static Message.Query parseQuery(DatagramPacket datagramPacket) throws InvalidProtocolBufferException {
+        final ByteBuffer byteBuffer = ByteBuffer.wrap(datagramPacket.getData());
+        final byte[] data = new byte[byteBuffer.getInt()];
+        byteBuffer.get(data);
+        return Message.Query.parseFrom(data);
+    }
+
     @Override
     public void stop() throws IOException {
         datagramSocket.close();
@@ -40,8 +49,7 @@ public abstract class UDPServer extends Server {
     void handleRequest(DatagramPacket datagramPacket, TimeInterval clientTime) throws IOException {
         final TimeInterval requestTime = new TimeInterval();
 
-        clientTime.start();
-        final Message.Query query = Util.parseQuery(datagramSocket, buffer);
+        final Message.Query query = parseQuery(datagramPacket);
 
         requestTime.start();
         final Message.Answer answer = handleQueryAndGetAnswer(query);

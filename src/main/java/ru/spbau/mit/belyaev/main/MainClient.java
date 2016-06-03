@@ -31,16 +31,7 @@ public class MainClient {
 
             final MainClient mainClient = new MainClient(ipAddress);
 
-            /*Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                try {
-                    mainClient.stopTestServer();
-                    mainClient.stop();
-                } catch (IOException e) {
-                    LOGGER.warning("Fail to stop MainClient or TestServer!");
-                }
-            }));*/
-
-            final Server.Type serverType = Server.Type.TCP_FOR_EACH_THREAD;
+            final Server.Type serverType = Server.Type.UDP_FOR_EACH_THREAD;
 
             mainClient.startTestServer(serverType);
 

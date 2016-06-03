@@ -12,8 +12,8 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -30,7 +30,7 @@ class NonBlockingTCPServer extends Server {
     private final Selector selector;
     private final ServerSocketChannel serverSocketChannel;
     private final ExecutorService threadPool;
-    private final Set<SocketChannel> channels;
+    private final List<SocketChannel> channels;
 
     NonBlockingTCPServer(int port) throws IOException {
         selector = Selector.open();
@@ -42,14 +42,15 @@ class NonBlockingTCPServer extends Server {
 
         threadPool = Executors.newCachedThreadPool();
 
-        channels = new TreeSet<>();
+        channels = new LinkedList<>();
     }
 
     @Override
     public void start() {
         try {
-            while (!serverSocketChannel.isOpen()) {
+            while (serverSocketChannel.isOpen()) {
                 selector.select();
+
                 final Iterator<SelectionKey> keyIterator = selector.selectedKeys().iterator();
                 while (keyIterator.hasNext()) {
                     final SelectionKey key = keyIterator.next();
@@ -83,12 +84,9 @@ class NonBlockingTCPServer extends Server {
         threadPool.shutdown();
     }
 
-    private void prepareAnswer(RequestContext requestContext) throws InvalidProtocolBufferException {
-        final Message.Query query = Message.Query.parseFrom(requestContext.count.put(requestContext.nums).array());
+    private void prepareAnswer(RequestContext requestContext, Message.Query query, TimeInterval requestTime)
+            throws InvalidProtocolBufferException {
 
-        final TimeInterval requestTime = new TimeInterval();
-
-        requestTime.start();
         final Message.Answer answerPacket = handleQueryAndGetAnswer(query);
         requestTime.stop();
 
@@ -118,29 +116,34 @@ class NonBlockingTCPServer extends Server {
         final SocketChannel socketChannel = (SocketChannel) key.channel();
         final RequestContext requestContext = (RequestContext) key.attachment();
 
-        if (requestContext.count.hasRemaining()) {
-            if (requestContext.count.remaining() == requestContext.count.capacity()) {
+        if (requestContext.size.hasRemaining()) {
+            if (requestContext.size.remaining() == requestContext.size.capacity()) {
                 // старт обработки 1 запроса
                 requestContext.clientTime.start();
             }
 
-            socketChannel.read(requestContext.count);
+            socketChannel.read(requestContext.size);
 
-            if (!requestContext.count.hasRemaining()) {
-                requestContext.count.flip();
-                requestContext.nums = ByteBuffer.allocate(requestContext.count.getInt());
+            if (!requestContext.size.hasRemaining()) {
+                requestContext.size.flip();
+                requestContext.data = ByteBuffer.allocate(requestContext.size.getInt());
             }
         }
 
-        if (requestContext.nums != null) {
-            socketChannel.read(requestContext.nums);
+        if (requestContext.data != null) {
+            socketChannel.read(requestContext.data);
 
-            if (!requestContext.nums.hasRemaining()) {
-                requestContext.nums.flip();
+            if (!requestContext.data.hasRemaining()) {
+                requestContext.data.flip();
+
+                final TimeInterval requestTime = new TimeInterval();
+                requestTime.start();
+
+                final Message.Query query = Message.Query.parseFrom(requestContext.data.array());
 
                 threadPool.submit(() -> {
                     try {
-                        prepareAnswer(requestContext);
+                        prepareAnswer(requestContext, query, requestTime);
                     } catch (InvalidProtocolBufferException e) {
                         LOGGER.severe("Invalid parsing!");
                     }
@@ -164,7 +167,10 @@ class NonBlockingTCPServer extends Server {
             }
 
             if (answerPacket != null) {
-                requestContext.answer = ByteBuffer.wrap(answerPacket.toByteArray());
+                requestContext.answer = ByteBuffer.allocate(INTEGER_SIZE + answerPacket.getSerializedSize());
+                requestContext.answer.putInt(answerPacket.getSerializedSize());
+                requestContext.answer.put(answerPacket.toByteArray());
+
                 requestContext.answer.flip();
             }
         }
@@ -184,24 +190,24 @@ class NonBlockingTCPServer extends Server {
 
     private static class RequestContext {
         private final TimeInterval clientTime;
-        private final ByteBuffer count;
+        private final ByteBuffer size;
         private final Object lock;
-        private ByteBuffer nums;
+        private ByteBuffer data;
         private ByteBuffer answer;
         private Message.Answer answerPacket;
 
         private RequestContext() {
             clientTime = new TimeInterval();
-            count = ByteBuffer.allocate(INTEGER_SIZE);
+            size = ByteBuffer.allocate(INTEGER_SIZE);
             lock = new Object();
-            nums = null;
+            data = null;
             answer = null;
             answerPacket = null;
         }
 
         private void refreshReading() {
-            count.clear();
-            nums = null;
+            size.clear();
+            data = null;
         }
 
         private void refreshWriting() {
