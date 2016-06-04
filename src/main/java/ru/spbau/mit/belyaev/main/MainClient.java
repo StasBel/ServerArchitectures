@@ -11,6 +11,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
@@ -44,7 +46,7 @@ public class MainClient {
                     new IntSpan(20),
                     new IntSpan(300, 2000, 300),
                     new IntSpan(5),
-                    20);
+                    new IntSpan(20));
 
             mainClient.stop();
 
@@ -54,15 +56,19 @@ public class MainClient {
         }
     }
 
-    private void test(Server.Type serverType,
-                      IntSpan clientsNumberSpan,
-                      IntSpan arrayLengthSpan,
-                      IntSpan timeDelaySpan,
-                      int queriesCount) throws IOException {
-        while (clientsNumberSpan.hasNext() || arrayLengthSpan.hasNext() || timeDelaySpan.hasNext()) {
+    private List<TestLapInfo> test(Server.Type serverType,
+                                   IntSpan clientsNumberSpan,
+                                   IntSpan arrayLengthSpan,
+                                   IntSpan timeDelaySpan,
+                                   IntSpan queriesCountSpan) throws IOException {
+        final List<TestLapInfo> result = new LinkedList<>();
+
+        while (clientsNumberSpan.hasNext() || arrayLengthSpan.hasNext()
+                || timeDelaySpan.hasNext() || queriesCountSpan.hasNext()) {
             final int clientsNumber = clientsNumberSpan.next();
             final int arrayLength = arrayLengthSpan.next();
             final int timeDelay = timeDelaySpan.next();
+            final int queriesCount = queriesCountSpan.next();
 
             System.out.println(clientsNumber + " " + arrayLength + " " + timeDelay + " " + queriesCount);
 
@@ -102,13 +108,18 @@ public class MainClient {
 
             final StopServerAnswer stopServerAnswer = stopTestServer();
 
-            System.out.println(clientWorkingStat.calcAverage());
+            System.out.println(clientWorkingStat.calcAverageDouble());
             System.out.println(stopServerAnswer.clientTime);
             System.out.println(stopServerAnswer.requestTime);
             System.out.println("---------------------------");
+
+            result.add(new TestLapInfo(clientsNumber, arrayLength, timeDelay, queriesCount,
+                    clientWorkingStat.calcAverageDouble(), stopServerAnswer.clientTime, stopServerAnswer.requestTime));
         }
 
         LOGGER.info("finish test");
+
+        return result;
     }
 
     private void stop() throws IOException {
@@ -134,16 +145,66 @@ public class MainClient {
         dataOutputStream.flush();
 
         return new StopServerAnswer(
-                dataInputStream.readLong(),
-                dataInputStream.readLong()
+                dataInputStream.readDouble(),
+                dataInputStream.readDouble()
         );
     }
 
-    private static class StopServerAnswer {
-        private final long clientTime;
-        private final long requestTime;
+    public static class TestLapInfo {
+        private final int clientsNumber;
+        private final int arrayLength;
+        private final int timeDelay;
+        private final int queriesCount;
 
-        private StopServerAnswer(long clientTime, long requestTime) {
+        private final double clientWorkingTime;
+        private final double clientHandlingTime;
+        private final double requestHandlingTime;
+
+        public TestLapInfo(int clientsNumber, int arrayLength, int timeDelay, int queriesCount,
+                           double clientWorkingTime, double clientHandlingTime, double requestHandlingTime) {
+            this.clientsNumber = clientsNumber;
+            this.arrayLength = arrayLength;
+            this.timeDelay = timeDelay;
+            this.queriesCount = queriesCount;
+            this.clientWorkingTime = clientWorkingTime;
+            this.clientHandlingTime = clientHandlingTime;
+            this.requestHandlingTime = requestHandlingTime;
+        }
+
+        public int getClientsNumber() {
+            return clientsNumber;
+        }
+
+        public int getArrayLength() {
+            return arrayLength;
+        }
+
+        public int getTimeDelay() {
+            return timeDelay;
+        }
+
+        public int getQueriesCount() {
+            return queriesCount;
+        }
+
+        public double getClientWorkingTime() {
+            return clientWorkingTime;
+        }
+
+        public double getClientHandlingTime() {
+            return clientHandlingTime;
+        }
+
+        public double getRequestHandlingTime() {
+            return requestHandlingTime;
+        }
+    }
+
+    private static class StopServerAnswer {
+        private final double clientTime;
+        private final double requestTime;
+
+        private StopServerAnswer(double clientTime, double requestTime) {
             this.clientTime = clientTime;
             this.requestTime = requestTime;
         }

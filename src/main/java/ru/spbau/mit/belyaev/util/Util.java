@@ -157,4 +157,8 @@ public class Util {
             }
         }
     }
+
+    static long getCurrentTime() {
+        return System.currentTimeMillis();
+    }
 }

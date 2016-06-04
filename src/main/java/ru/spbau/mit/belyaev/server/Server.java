@@ -19,12 +19,20 @@ public abstract class Server {
         requestHandlingStat = new Stat();
     }
 
-    public long getAverageClientHandling() {
-        return clientHandlingStat.calcAverage();
+    public long getAverageClientHandlingLong() {
+        return clientHandlingStat.calcAverageLong();
     }
 
-    public long getAverageRequestHandling() {
-        return requestHandlingStat.calcAverage();
+    public long getAverageRequestHandlingLong() {
+        return requestHandlingStat.calcAverageLong();
+    }
+
+    public double getAverageClientHandlingDouble() {
+        return clientHandlingStat.calcAverageDouble();
+    }
+
+    public double getAverageRequestHandlingDouble() {
+        return requestHandlingStat.calcAverageDouble();
     }
 
     public abstract void start();

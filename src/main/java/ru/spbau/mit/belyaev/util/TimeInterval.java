@@ -12,11 +12,11 @@ public class TimeInterval {
     // NOT thread-safe
 
     public void start() {
-        startTime = System.currentTimeMillis();
+        startTime = Util.getCurrentTime();
     }
 
     public void stop() {
-        stopTime = System.currentTimeMillis();
+        stopTime = Util.getCurrentTime();
     }
 
     public long getTimeAbs() {

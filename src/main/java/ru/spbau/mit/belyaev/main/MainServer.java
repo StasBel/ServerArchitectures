@@ -94,8 +94,12 @@ public class MainServer {
 
                 LOGGER.info("Stop server!");
 
-                dataOutputStream.writeLong(server.getAverageClientHandling());
-                dataOutputStream.writeLong(server.getAverageRequestHandling());
+                //dataOutputStream.writeLong(server.getAverageClientHandlingLong());
+                //dataOutputStream.writeLong(server.getAverageRequestHandlingLong());
+
+                dataOutputStream.writeDouble(server.getAverageClientHandlingDouble());
+                dataOutputStream.writeDouble(server.getAverageRequestHandlingDouble());
+
                 dataOutputStream.flush();
 
                 break;

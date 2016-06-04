@@ -27,9 +27,6 @@ public abstract class UDPServer extends Server {
         super();
         datagramSocket = new DatagramSocket(port);
 
-        // datagramSocket.setReceiveBufferSize(UDP_BUFFER_SIZE);
-        // datagramSocket.setSendBufferSize(UDP_BUFFER_SIZE);
-
         // datagramSocket.setSoTimeout(2000);
 
         buffer = new byte[UDP_BUFFER_SIZE];

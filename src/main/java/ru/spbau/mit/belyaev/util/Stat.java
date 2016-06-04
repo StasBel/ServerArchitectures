@@ -27,8 +27,16 @@ public class Stat {
         allTime.addAndGet(timeInterval.getTimeAbs());
     }
 
-    public long calcAverage() {
+    public long calcAverageLong() {
         return allTime.get() / count.get();
+    }
+
+    public float calcAverageFloat() {
+        return ((float) allTime.get()) / count.get();
+    }
+
+    public double calcAverageDouble() {
+        return ((double) allTime.get()) / count.get();
     }
 
     public int getCount() {
