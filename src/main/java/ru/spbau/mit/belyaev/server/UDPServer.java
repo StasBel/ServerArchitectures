@@ -18,6 +18,7 @@ import java.nio.ByteBuffer;
 
 public abstract class UDPServer extends Server {
     public final static int UDP_BUFFER_SIZE = 15000;
+    // public final static int UDP_BUFFER_SIZE = Short.MAX_VALUE;
 
     final DatagramSocket datagramSocket;
     private final byte[] buffer;
@@ -26,9 +27,10 @@ public abstract class UDPServer extends Server {
         super();
         datagramSocket = new DatagramSocket(port);
 
-        /*datagramSocket.setReceiveBufferSize(UDP_BUFFER_SIZE);
-        datagramSocket.setSendBufferSize(UDP_BUFFER_SIZE);
-        datagramSocket.setSoTimeout(2000);*/
+        // datagramSocket.setReceiveBufferSize(UDP_BUFFER_SIZE);
+        // datagramSocket.setSendBufferSize(UDP_BUFFER_SIZE);
+
+        // datagramSocket.setSoTimeout(2000);
 
         buffer = new byte[UDP_BUFFER_SIZE];
     }

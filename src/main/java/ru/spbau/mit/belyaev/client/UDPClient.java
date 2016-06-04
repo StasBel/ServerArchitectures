@@ -34,10 +34,6 @@ class UDPClient extends Client {
 
         datagramSocket.setSoTimeout(UDP_TIMEOUT);
 
-        /*datagramSocket.setReceiveBufferSize(UDP_BUFFER_SIZE);
-        datagramSocket.setSendBufferSize(UDP_BUFFER_SIZE);
-        datagramSocket.setSoTimeout(UDP_TIMEOUT);*/
-
         int alreadyDone = 0;
         while (alreadyDone != queriesCount) {
             // LOGGER.info("start of round");
@@ -53,6 +49,10 @@ class UDPClient extends Client {
             final Message.Answer answer = Util.parseAnswer(datagramSocket, buffer);
 
             // LOGGER.info("parse query");
+
+            // Util.printQueryWithSort(query);
+            // Util.printAnswer(answer);
+            //  || !answer.getNumList().equals(query.getNumList().stream().sorted().collect(Collectors.toList()))
 
             if (answer.getCount() != query.getCount()) {
                 LOGGER.severe("Got bad answer!");

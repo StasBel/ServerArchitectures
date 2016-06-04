@@ -42,6 +42,11 @@ public class Util {
         System.out.println(Arrays.toString(query.getNumList().toArray()));
     }
 
+    public static void printQueryWithSort(Message.Query query) {
+        System.out.println(query.getCount());
+        System.out.println(Arrays.toString(query.getNumList().stream().sorted().toArray()));
+    }
+
     public static void printAnswer(Message.Answer answer) {
         System.out.println(answer.getCount());
         System.out.println(Arrays.toString(answer.getNumList().toArray()));

@@ -11,12 +11,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
@@ -40,35 +36,17 @@ public class MainClient {
     public static void main(String[] args) {
         try {
             final String ipAddress = "localhost";
-            final Server.Type serverType = Server.Type.UDP_THREAD_POOL;
+            final Server.Type serverType = Server.Type.UDP_FOR_EACH_THREAD;
 
             final MainClient mainClient = new MainClient(ipAddress);
 
             mainClient.test(serverType,
                     new IntSpan(20),
-                    new IntSpan(300, 4200, 300),
+                    new IntSpan(300, 2000, 300),
                     new IntSpan(5),
                     20);
 
             mainClient.stop();
-
-            LOGGER.info("finish test");
-
-            /*final MainClient mainClient = new MainClient(ipAddress);
-
-            mainClient.startTestServer(serverType);
-
-            final Client client = ClientFactory.buildClient(serverType, ipAddress, 100, 10, 5);
-            client.doQueries();
-
-            final long workingTime = client.getWorkingTime();
-            System.out.println(workingTime);
-
-            final StopServerAnswer stopServerAnswer = mainClient.stopTestServer();
-            System.out.println(stopServerAnswer.clientTime);
-            System.out.println(stopServerAnswer.requestTime);
-
-            mainClient.stop();*/
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -97,9 +75,8 @@ public class MainClient {
                     arrayLength, timeDelay, queriesCount);
 
             final Stat clientWorkingStat = new Stat();
-            final List<Future<?>> tasks = new LinkedList<>();
             for (int i = 0; i < clientsNumber; i++) {
-                tasks.add(threadPool.submit(() -> {
+                threadPool.submit(() -> {
                     final Client client;
 
                     try {
@@ -110,7 +87,7 @@ public class MainClient {
                         LOGGER.info("Bad I/O!");
                         e.printStackTrace();
                     }
-                }));
+                });
             }
 
             while (clientWorkingStat.getCount() != clientsNumber) {
@@ -121,16 +98,6 @@ public class MainClient {
                 }
             }
 
-            /*for (Future<?> future : tasks) {
-                while (!future.isDone()) {
-                    try {
-                        future.get();
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }*/
-
             threadPool.shutdown();
 
             final StopServerAnswer stopServerAnswer = stopTestServer();
@@ -140,6 +107,8 @@ public class MainClient {
             System.out.println(stopServerAnswer.requestTime);
             System.out.println("---------------------------");
         }
+
+        LOGGER.info("finish test");
     }
 
     private void stop() throws IOException {
