@@ -16,8 +16,8 @@ import java.util.logging.Logger;
  */
 
 public class MainServer {
-    public static final int TEST_SERVER_PORT_NUMBER = 6667;
-    static final int MAIN_SERVER_PORT_NUMBER = 6666;
+    public static final int TEST_SERVER_PORT_NUMBER = 1234;
+    static final int MAIN_SERVER_PORT_NUMBER = 1245;
     static final byte OK = 0;
     private static final byte BAD = 1;
     private static final Logger LOGGER = Logger.getLogger(MainServer.class.getName());

@@ -6,7 +6,6 @@ import ru.spbau.mit.belyaev.util.TimeInterval;
 import ru.spbau.mit.belyaev.util.Util;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +31,13 @@ class TCPClient extends Client {
                          AtomicInteger alreadyDone, Stat clientWorkingStat) {
         try {
 
+            if (alreadyDone.intValue() == 0) {
+                workingTime.start();
+            }
+
             if (socket == null) {
-                socket = new Socket(InetAddress.getByName(ipAddress), port);
+                socket = new Socket(ipAddress, port);
+                workingTime.start();
             }
 
             final Message.Query query = makeQuery();

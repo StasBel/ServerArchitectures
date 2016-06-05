@@ -36,7 +36,6 @@ public abstract class Client {
 
     public void doQueries(ScheduledThreadPoolExecutor threadPool, Stat clientWorkingStat) throws IOException {
         final TimeInterval workingTime = new TimeInterval();
-        workingTime.start();
 
         final AtomicInteger alreadyDone = new AtomicInteger(0);
 

@@ -6,7 +6,6 @@ import ru.spbau.mit.belyaev.util.TimeInterval;
 import ru.spbau.mit.belyaev.util.Util;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +29,11 @@ class SingleThreadTCPClient extends Client {
                          AtomicInteger alreadyDone, Stat clientWorkingStat) {
         try {
 
-            final Socket socket = new Socket(InetAddress.getByName(ipAddress), port);
+            if (alreadyDone.intValue() == 0) {
+                workingTime.start();
+            }
+
+            final Socket socket = new Socket(ipAddress, port);
 
             final Message.Query query = makeQuery();
 

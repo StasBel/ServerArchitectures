@@ -7,7 +7,6 @@ import ru.spbau.mit.belyaev.util.Util;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +22,7 @@ import static ru.spbau.mit.belyaev.server.UDPServer.UDP_BUFFER_SIZE;
 
 class UDPClient extends Client {
     private static final Logger LOGGER = Logger.getLogger(UDPClient.class.getName());
-    private static final int UDP_TIMEOUT = 2000;
+    private static final int UDP_TIMEOUT = 10000;
 
     private final byte[] buffer;
     private InetSocketAddress socketAddress;
@@ -42,8 +41,12 @@ class UDPClient extends Client {
                          AtomicInteger alreadyDone, Stat clientWorkingStat) {
         try {
 
+            if (alreadyDone.intValue() == 0) {
+                workingTime.start();
+            }
+
             if (datagramSocket == null) {
-                socketAddress = new InetSocketAddress(InetAddress.getByName(ipAddress), port);
+                socketAddress = new InetSocketAddress(ipAddress, port);
                 datagramSocket = new DatagramSocket();
                 datagramSocket.setSoTimeout(UDP_TIMEOUT);
             }
@@ -67,6 +70,7 @@ class UDPClient extends Client {
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
             LOGGER.warning("exception in runRound");
         }
     }

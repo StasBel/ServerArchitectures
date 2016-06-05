@@ -7,7 +7,36 @@
 * UDP_FOR_EACH_THREAD
 * UDP_THREAD_POOL
 
-### test 
+результаты лежат в 'src/main/resources'
 
+# НЕ ОКОНЧАТЕЛЬНАЯ ВЕРСИЯ
+
+### test №1
+clients=15,
+length=from 100 to 2000 step 100,
+delay=5,
+queries=15
 
 ![Граффик](src/main/resources/length/client_working_time.png "Граффик") <br />
+![Граффик](src/main/resources/length/client_handling_time.png "Граффик") <br />
+![Граффик](src/main/resources/length/request_handling_time.png "Граффик") <br />
+
+### test №2
+clients=from 5 to 100 step 5,
+length=1000,
+delay=10,
+queries=30
+
+![Граффик](src/main/resources/clients/client_working_time.png "Граффик") <br />
+![Граффик](src/main/resources/clients/client_handling_time.png "Граффик") <br />
+![Граффик](src/main/resources/clients/request_handling_time.png "Граффик") <br />
+
+### test №3
+clients=20,
+length=1000,
+delay=from 0 to 480 step 30,
+queries=20
+
+![Граффик](src/main/resources/delay/client_working_time.png "Граффик") <br />
+![Граффик](src/main/resources/delay/client_handling_time.png "Граффик") <br />
+![Граффик](src/main/resources/delay/request_handling_time.png "Граффик") <br />

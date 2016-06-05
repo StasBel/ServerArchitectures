@@ -38,8 +38,8 @@ public class GUI extends JFrame {
     };
     private final static Supplier<IntSpan[]> TEST_DELAY = () -> new IntSpan[]{
             new IntSpan(20), // clients
-            new IntSpan(1000), // length
-            new IntSpan(0, 480, 30), // delay
+            new IntSpan(100), // length
+            new IntSpan(0, 500, 50), // delay
             new IntSpan(20) //queries
     };
     private final UILogger uiLogger;
@@ -70,7 +70,8 @@ public class GUI extends JFrame {
 
     public static void main(String[] args) {
         try {
-            final String ipAddress = "localhost";
+            // final String ipAddress = "localhost";
+            final String ipAddress = "192.168.211.81"; // misha's notebook
             final Server.Type[] serverTypes = {Server.Type.ALL};
 
             final GUI gui = new GUI(ipAddress);
