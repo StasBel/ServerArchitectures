@@ -14,8 +14,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
@@ -102,7 +101,8 @@ public class MainClient {
                     + ", queriesCount=" + queriesCount + "\n");
 
             // final ExecutorService threadPool = Executors.newCachedThreadPool();
-            final ExecutorService threadPool = Executors.newFixedThreadPool(THREADS_NUMBER);
+            // final ExecutorService threadPool = Executors.newFixedThreadPool(THREADS_NUMBER);
+            final ScheduledThreadPoolExecutor threadPool = new ScheduledThreadPoolExecutor(THREADS_NUMBER);
 
             startTestServer(serverType);
 
@@ -116,8 +116,7 @@ public class MainClient {
 
                     try {
                         client = clientFactory.get();
-                        client.doQueries();
-                        clientWorkingStat.add(client.getWorkingTime());
+                        client.doQueries(threadPool, clientWorkingStat);
                     } catch (IOException e) {
                         LOGGER.info("Bad I/O!");
                         e.printStackTrace();

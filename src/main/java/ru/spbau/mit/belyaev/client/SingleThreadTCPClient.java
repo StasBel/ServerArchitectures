@@ -1,11 +1,16 @@
 package ru.spbau.mit.belyaev.client;
 
 import ru.spbau.mit.belyaev.Message;
+import ru.spbau.mit.belyaev.util.Stat;
+import ru.spbau.mit.belyaev.util.TimeInterval;
 import ru.spbau.mit.belyaev.util.Util;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 /**
@@ -21,9 +26,10 @@ class SingleThreadTCPClient extends Client {
     }
 
     @Override
-    public void doQueriesWithoutTime() throws IOException {
-        int alreadyDone = 0;
-        while (alreadyDone != queriesCount) {
+    public void runRound(TimeInterval workingTime, ScheduledThreadPoolExecutor threadPool,
+                         AtomicInteger alreadyDone, Stat clientWorkingStat) {
+        try {
+
             final Socket socket = new Socket(InetAddress.getByName(ipAddress), port);
 
             final Message.Query query = makeQuery();
@@ -32,16 +38,20 @@ class SingleThreadTCPClient extends Client {
 
             final Message.Answer answer = Util.parseAnswer(socket);
 
-            if (answer.getCount() != query.getCount()) {
-                LOGGER.severe("Got bad answer!");
-            }
-
             socket.close();
 
-            alreadyDone++;
-            if (alreadyDone != queriesCount) {
-                Util.waitForA(timeDelay);
+            alreadyDone.incrementAndGet();
+
+            if (alreadyDone.intValue() != queriesCount) {
+                threadPool.schedule(() -> runRound(workingTime, threadPool, alreadyDone, clientWorkingStat),
+                        timeDelay, TimeUnit.MILLISECONDS);
+            } else {
+                workingTime.stop();
+                clientWorkingStat.add(workingTime);
             }
+
+        } catch (IOException e) {
+            LOGGER.warning("exception in runRound");
         }
     }
 }

@@ -1,12 +1,17 @@
 package ru.spbau.mit.belyaev.client;
 
 import ru.spbau.mit.belyaev.Message;
+import ru.spbau.mit.belyaev.util.Stat;
+import ru.spbau.mit.belyaev.util.TimeInterval;
 import ru.spbau.mit.belyaev.util.Util;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 import static ru.spbau.mit.belyaev.server.UDPServer.UDP_BUFFER_SIZE;
@@ -21,51 +26,48 @@ class UDPClient extends Client {
     private static final int UDP_TIMEOUT = 2000;
 
     private final byte[] buffer;
+    private InetSocketAddress socketAddress;
+    private DatagramSocket datagramSocket;
 
     UDPClient(String ipAddress, int port, int arrayLength, long timeDelay, int queriesCount) {
         super(ipAddress, port, arrayLength, timeDelay, queriesCount);
         buffer = new byte[UDP_BUFFER_SIZE];
+
+        socketAddress = null;
+        datagramSocket = null;
     }
 
     @Override
-    public void doQueriesWithoutTime() throws IOException {
-        final InetSocketAddress socketAddress = new InetSocketAddress(InetAddress.getByName(ipAddress), port);
-        final DatagramSocket datagramSocket = new DatagramSocket();
+    public void runRound(TimeInterval workingTime, ScheduledThreadPoolExecutor threadPool,
+                         AtomicInteger alreadyDone, Stat clientWorkingStat) {
+        try {
 
-        datagramSocket.setSoTimeout(UDP_TIMEOUT);
-
-        int alreadyDone = 0;
-        while (alreadyDone != queriesCount) {
-            // LOGGER.info("start of round");
+            if (datagramSocket == null) {
+                socketAddress = new InetSocketAddress(InetAddress.getByName(ipAddress), port);
+                datagramSocket = new DatagramSocket();
+                datagramSocket.setSoTimeout(UDP_TIMEOUT);
+            }
 
             final Message.Query query = makeQuery();
 
-            // LOGGER.info("start sending");
-
             Util.sendQuery(datagramSocket, socketAddress, buffer, query);
-
-            // LOGGER.info("send query");
 
             final Message.Answer answer = Util.parseAnswer(datagramSocket, buffer);
 
-            // LOGGER.info("parse query");
+            alreadyDone.incrementAndGet();
 
-            // Util.printQueryWithSort(query);
-            // Util.printAnswer(answer);
-            //  || !answer.getNumList().equals(query.getNumList().stream().sorted().collect(Collectors.toList()))
+            if (alreadyDone.intValue() != queriesCount) {
+                threadPool.schedule(() -> runRound(workingTime, threadPool, alreadyDone, clientWorkingStat),
+                        timeDelay, TimeUnit.MILLISECONDS);
+            } else {
+                workingTime.stop();
+                clientWorkingStat.add(workingTime);
 
-            if (answer.getCount() != query.getCount()) {
-                LOGGER.severe("Got bad answer!");
+                datagramSocket.close();
             }
 
-            alreadyDone++;
-            if (alreadyDone != queriesCount) {
-                Util.waitForA(timeDelay);
-            }
-
-            // LOGGER.info("end of round");
+        } catch (IOException e) {
+            LOGGER.warning("exception in runRound");
         }
-
-        datagramSocket.close();
     }
 }

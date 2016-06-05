@@ -1,10 +1,14 @@
 package ru.spbau.mit.belyaev.client;
 
 import ru.spbau.mit.belyaev.Message;
+import ru.spbau.mit.belyaev.util.Stat;
 import ru.spbau.mit.belyaev.util.TimeInterval;
 
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -18,7 +22,6 @@ public abstract class Client {
     final long timeDelay;
     final int queriesCount;
     private final int arrayLength;
-    private long workingTime;
 
     Client(String ipAddress, int port, int arrayLength, long timeDelay, int queriesCount) {
         this.arrayLength = arrayLength;
@@ -26,25 +29,19 @@ public abstract class Client {
         this.port = port;
         this.timeDelay = timeDelay;
         this.queriesCount = queriesCount;
-        workingTime = 0;
     }
 
-    abstract void doQueriesWithoutTime() throws IOException;
+    abstract void runRound(TimeInterval workingTime, ScheduledThreadPoolExecutor threadPool,
+                           AtomicInteger alreadyDone, Stat clientWorkingStat);
 
-    public void doQueries() throws IOException {
+    public void doQueries(ScheduledThreadPoolExecutor threadPool, Stat clientWorkingStat) throws IOException {
         final TimeInterval workingTime = new TimeInterval();
-
         workingTime.start();
 
-        doQueriesWithoutTime();
+        final AtomicInteger alreadyDone = new AtomicInteger(0);
 
-        workingTime.stop();
-
-        this.workingTime = workingTime.getTimeAbs();
-    }
-
-    public long getWorkingTime() {
-        return workingTime;
+        threadPool.schedule(() -> runRound(workingTime, threadPool, alreadyDone, clientWorkingStat),
+                0, TimeUnit.MILLISECONDS);
     }
 
     Message.Query makeQuery() {

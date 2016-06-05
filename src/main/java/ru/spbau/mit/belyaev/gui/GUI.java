@@ -39,7 +39,7 @@ public class GUI extends JFrame {
     private final static Supplier<IntSpan[]> TEST_DELAY = () -> new IntSpan[]{
             new IntSpan(20), // clients
             new IntSpan(1000), // length
-            new IntSpan(0, 500, 40), // delay
+            new IntSpan(0, 480, 30), // delay
             new IntSpan(20) //queries
     };
     private final UILogger uiLogger;
