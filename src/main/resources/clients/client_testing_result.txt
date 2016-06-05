@@ -1,0 +1,690 @@
+Start testing for server type: UDP_FOR_EACH_THREAD, iterating through CLIENTS from 5 to 100 with step=5
+Start testing round with clientsNumber=5, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 778.4 ms
+Average client handling time: 11.52 ms
+Average request handling time: 9.686666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=10, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 650.1 ms
+Average client handling time: 9.75 ms
+Average request handling time: 9.226666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=15, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 606.3333333333334 ms
+Average client handling time: 8.384444444444444 ms
+Average request handling time: 7.9688888888888885 ms
+----------------------------------------------
+Start testing round with clientsNumber=20, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 628.95 ms
+Average client handling time: 8.9 ms
+Average request handling time: 8.578333333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=25, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 619.04 ms
+Average client handling time: 8.769333333333334 ms
+Average request handling time: 8.416 ms
+----------------------------------------------
+Start testing round with clientsNumber=30, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 599.8333333333334 ms
+Average client handling time: 8.20888888888889 ms
+Average request handling time: 7.812222222222222 ms
+----------------------------------------------
+Start testing round with clientsNumber=35, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 617.3714285714286 ms
+Average client handling time: 8.544761904761904 ms
+Average request handling time: 8.192380952380953 ms
+----------------------------------------------
+Start testing round with clientsNumber=40, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 640.675 ms
+Average client handling time: 9.238333333333333 ms
+Average request handling time: 8.8425 ms
+----------------------------------------------
+Start testing round with clientsNumber=45, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 619.9111111111112 ms
+Average client handling time: 8.748148148148148 ms
+Average request handling time: 8.307407407407407 ms
+----------------------------------------------
+Start testing round with clientsNumber=50, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 640.16 ms
+Average client handling time: 9.163333333333334 ms
+Average request handling time: 8.848666666666666 ms
+----------------------------------------------
+Start testing round with clientsNumber=55, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 624.0727272727273 ms
+Average client handling time: 8.789090909090909 ms
+Average request handling time: 8.465454545454545 ms
+----------------------------------------------
+Start testing round with clientsNumber=60, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 644.45 ms
+Average client handling time: 9.346111111111112 ms
+Average request handling time: 9.001111111111111 ms
+----------------------------------------------
+Start testing round with clientsNumber=65, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 639.0 ms
+Average client handling time: 9.192820512820512 ms
+Average request handling time: 8.847692307692308 ms
+----------------------------------------------
+Start testing round with clientsNumber=70, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 619.8857142857142 ms
+Average client handling time: 8.700952380952382 ms
+Average request handling time: 8.373809523809523 ms
+----------------------------------------------
+Start testing round with clientsNumber=75, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 632.08 ms
+Average client handling time: 9.003111111111112 ms
+Average request handling time: 8.670666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=80, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 629.0125 ms
+Average client handling time: 8.914166666666667 ms
+Average request handling time: 8.601666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=85, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 641.9882352941177 ms
+Average client handling time: 9.258431372549019 ms
+Average request handling time: 8.932941176470589 ms
+----------------------------------------------
+Start testing round with clientsNumber=90, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 636.5888888888888 ms
+Average client handling time: 9.097407407407408 ms
+Average request handling time: 8.745185185185186 ms
+----------------------------------------------
+Start testing round with clientsNumber=95, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 637.021052631579 ms
+Average client handling time: 9.110877192982457 ms
+Average request handling time: 8.784561403508771 ms
+Finish testing for server type: UDP_FOR_EACH_THREAD
+Start testing for server type: TCP_NON_BLOCKING, iterating through CLIENTS from 5 to 100 with step=5
+Start testing round with clientsNumber=5, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 518.0 ms
+Average client handling time: 5.34 ms
+Average request handling time: 5.086666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=10, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 493.5 ms
+Average client handling time: 5.113333333333333 ms
+Average request handling time: 4.966666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=15, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 480.4 ms
+Average client handling time: 4.642222222222222 ms
+Average request handling time: 4.513333333333334 ms
+----------------------------------------------
+Start testing round with clientsNumber=20, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 485.1 ms
+Average client handling time: 4.92 ms
+Average request handling time: 4.796666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=25, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 482.96 ms
+Average client handling time: 4.721333333333333 ms
+Average request handling time: 4.612 ms
+----------------------------------------------
+Start testing round with clientsNumber=30, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 489.26666666666665 ms
+Average client handling time: 4.843333333333334 ms
+Average request handling time: 4.764444444444444 ms
+----------------------------------------------
+Start testing round with clientsNumber=35, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 482.8285714285714 ms
+Average client handling time: 4.740952380952381 ms
+Average request handling time: 4.666666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=40, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 491.375 ms
+Average client handling time: 5.0375 ms
+Average request handling time: 4.9366666666666665 ms
+----------------------------------------------
+Start testing round with clientsNumber=45, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 488.93333333333334 ms
+Average client handling time: 4.978518518518518 ms
+Average request handling time: 4.867407407407407 ms
+----------------------------------------------
+Start testing round with clientsNumber=50, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 493.26 ms
+Average client handling time: 5.025333333333333 ms
+Average request handling time: 4.921333333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=55, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 488.43636363636364 ms
+Average client handling time: 4.959393939393939 ms
+Average request handling time: 4.863030303030303 ms
+----------------------------------------------
+Start testing round with clientsNumber=60, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 494.95 ms
+Average client handling time: 5.125 ms
+Average request handling time: 5.013888888888889 ms
+----------------------------------------------
+Start testing round with clientsNumber=65, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 497.67692307692306 ms
+Average client handling time: 5.226153846153847 ms
+Average request handling time: 5.12 ms
+----------------------------------------------
+Start testing round with clientsNumber=70, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 496.1142857142857 ms
+Average client handling time: 5.175714285714286 ms
+Average request handling time: 5.0790476190476195 ms
+----------------------------------------------
+Start testing round with clientsNumber=75, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 502.17333333333335 ms
+Average client handling time: 5.347111111111111 ms
+Average request handling time: 5.240444444444444 ms
+----------------------------------------------
+Start testing round with clientsNumber=80, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 505.6625 ms
+Average client handling time: 5.440833333333333 ms
+Average request handling time: 5.329583333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=85, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 503.9647058823529 ms
+Average client handling time: 5.409019607843137 ms
+Average request handling time: 5.298039215686274 ms
+----------------------------------------------
+Start testing round with clientsNumber=90, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 507.2888888888889 ms
+Average client handling time: 5.527777777777778 ms
+Average request handling time: 5.393703703703704 ms
+----------------------------------------------
+Start testing round with clientsNumber=95, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 513.7894736842105 ms
+Average client handling time: 5.712982456140351 ms
+Average request handling time: 5.594385964912281 ms
+Finish testing for server type: TCP_NON_BLOCKING
+Start testing for server type: TCP_FOR_EACH_THREAD, iterating through CLIENTS from 5 to 100 with step=5
+Start testing round with clientsNumber=5, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 564.0 ms
+Average client handling time: 7.193333333333333 ms
+Average request handling time: 7.053333333333334 ms
+----------------------------------------------
+Start testing round with clientsNumber=10, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 608.6 ms
+Average client handling time: 8.626666666666667 ms
+Average request handling time: 8.446666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=15, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 611.9333333333333 ms
+Average client handling time: 8.604444444444445 ms
+Average request handling time: 8.48 ms
+----------------------------------------------
+Start testing round with clientsNumber=20, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 591.9 ms
+Average client handling time: 8.078333333333333 ms
+Average request handling time: 7.9366666666666665 ms
+----------------------------------------------
+Start testing round with clientsNumber=25, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 593.32 ms
+Average client handling time: 8.089333333333334 ms
+Average request handling time: 7.94 ms
+----------------------------------------------
+Start testing round with clientsNumber=30, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 587.5333333333333 ms
+Average client handling time: 7.9911111111111115 ms
+Average request handling time: 7.837777777777778 ms
+----------------------------------------------
+Start testing round with clientsNumber=35, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 595.0 ms
+Average client handling time: 8.198095238095238 ms
+Average request handling time: 8.057142857142857 ms
+----------------------------------------------
+Start testing round with clientsNumber=40, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 617.875 ms
+Average client handling time: 8.9225 ms
+Average request handling time: 8.760833333333334 ms
+----------------------------------------------
+Start testing round with clientsNumber=45, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 615.7777777777778 ms
+Average client handling time: 8.782962962962962 ms
+Average request handling time: 8.665185185185186 ms
+----------------------------------------------
+Start testing round with clientsNumber=50, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 602.34 ms
+Average client handling time: 8.358666666666666 ms
+Average request handling time: 8.236 ms
+----------------------------------------------
+Start testing round with clientsNumber=55, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 594.0909090909091 ms
+Average client handling time: 8.205454545454545 ms
+Average request handling time: 8.076363636363636 ms
+----------------------------------------------
+Start testing round with clientsNumber=60, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 600.5666666666667 ms
+Average client handling time: 8.331111111111111 ms
+Average request handling time: 8.202222222222222 ms
+----------------------------------------------
+Start testing round with clientsNumber=65, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 588.9692307692308 ms
+Average client handling time: 7.953846153846154 ms
+Average request handling time: 7.82051282051282 ms
+----------------------------------------------
+Start testing round with clientsNumber=70, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 602.1428571428571 ms
+Average client handling time: 8.40047619047619 ms
+Average request handling time: 8.254285714285714 ms
+----------------------------------------------
+Start testing round with clientsNumber=75, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 600.76 ms
+Average client handling time: 8.292 ms
+Average request handling time: 8.149333333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=80, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 595.575 ms
+Average client handling time: 8.19 ms
+Average request handling time: 8.046666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=85, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 586.8470588235294 ms
+Average client handling time: 7.895294117647059 ms
+Average request handling time: 7.765882352941176 ms
+----------------------------------------------
+Start testing round with clientsNumber=90, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 603.2444444444444 ms
+Average client handling time: 8.358518518518519 ms
+Average request handling time: 8.235925925925926 ms
+----------------------------------------------
+Start testing round with clientsNumber=95, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 589.4947368421052 ms
+Average client handling time: 7.958947368421053 ms
+Average request handling time: 7.823859649122807 ms
+Finish testing for server type: TCP_FOR_EACH_THREAD
+Start testing for server type: TCP_THREAD_POOL, iterating through CLIENTS from 5 to 100 with step=5
+Start testing round with clientsNumber=5, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 550.0 ms
+Average client handling time: 6.546666666666667 ms
+Average request handling time: 6.433333333333334 ms
+----------------------------------------------
+Start testing round with clientsNumber=10, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 595.7 ms
+Average client handling time: 8.166666666666666 ms
+Average request handling time: 8.036666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=15, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 603.9333333333333 ms
+Average client handling time: 8.353333333333333 ms
+Average request handling time: 8.188888888888888 ms
+----------------------------------------------
+Start testing round with clientsNumber=20, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 589.75 ms
+Average client handling time: 8.098333333333333 ms
+Average request handling time: 7.956666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=25, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 596.96 ms
+Average client handling time: 8.152 ms
+Average request handling time: 8.017333333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=30, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 606.0333333333333 ms
+Average client handling time: 8.436666666666667 ms
+Average request handling time: 8.29888888888889 ms
+----------------------------------------------
+Start testing round with clientsNumber=35, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 609.0 ms
+Average client handling time: 8.491428571428571 ms
+Average request handling time: 8.370476190476191 ms
+----------------------------------------------
+Start testing round with clientsNumber=40, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 575.65 ms
+Average client handling time: 7.641666666666667 ms
+Average request handling time: 7.5125 ms
+----------------------------------------------
+Start testing round with clientsNumber=45, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 607.8 ms
+Average client handling time: 8.565925925925926 ms
+Average request handling time: 8.410370370370371 ms
+----------------------------------------------
+Start testing round with clientsNumber=50, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 572.74 ms
+Average client handling time: 7.478 ms
+Average request handling time: 7.349333333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=55, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 576.8545454545455 ms
+Average client handling time: 7.584242424242424 ms
+Average request handling time: 7.453939393939394 ms
+----------------------------------------------
+Start testing round with clientsNumber=60, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 603.5 ms
+Average client handling time: 8.355555555555556 ms
+Average request handling time: 8.21 ms
+----------------------------------------------
+Start testing round with clientsNumber=65, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 580.5692307692308 ms
+Average client handling time: 7.717948717948718 ms
+Average request handling time: 7.592820512820513 ms
+----------------------------------------------
+Start testing round with clientsNumber=70, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 575.7857142857143 ms
+Average client handling time: 7.577619047619048 ms
+Average request handling time: 7.456666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=75, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 586.92 ms
+Average client handling time: 7.934222222222222 ms
+Average request handling time: 7.810666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=80, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 586.325 ms
+Average client handling time: 7.914583333333334 ms
+Average request handling time: 7.795833333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=85, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 594.3411764705883 ms
+Average client handling time: 8.10392156862745 ms
+Average request handling time: 7.961568627450981 ms
+----------------------------------------------
+Start testing round with clientsNumber=90, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 567.7888888888889 ms
+Average client handling time: 7.314814814814815 ms
+Average request handling time: 7.173333333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=95, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 596.9684210526316 ms
+Average client handling time: 8.152280701754385 ms
+Average request handling time: 8.023859649122807 ms
+Finish testing for server type: TCP_THREAD_POOL
+Start testing for server type: TCP_SINGLE_THREAD, iterating through CLIENTS from 5 to 100 with step=5
+Start testing round with clientsNumber=5, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 531.6 ms
+Average client handling time: 3.7733333333333334 ms
+Average request handling time: 3.7266666666666666 ms
+----------------------------------------------
+Start testing round with clientsNumber=10, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 517.9 ms
+Average client handling time: 3.703333333333333 ms
+Average request handling time: 3.6133333333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=15, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 523.0 ms
+Average client handling time: 3.58 ms
+Average request handling time: 3.477777777777778 ms
+----------------------------------------------
+Start testing round with clientsNumber=20, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 513.55 ms
+Average client handling time: 3.46 ms
+Average request handling time: 3.3716666666666666 ms
+----------------------------------------------
+Start testing round with clientsNumber=25, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 526.4 ms
+Average client handling time: 3.498666666666667 ms
+Average request handling time: 3.3986666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=30, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 533.0333333333333 ms
+Average client handling time: 3.698888888888889 ms
+Average request handling time: 3.6077777777777778 ms
+----------------------------------------------
+Start testing round with clientsNumber=35, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 527.9714285714285 ms
+Average client handling time: 3.5352380952380953 ms
+Average request handling time: 3.4457142857142857 ms
+----------------------------------------------
+Start testing round with clientsNumber=40, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 537.05 ms
+Average client handling time: 3.5208333333333335 ms
+Average request handling time: 3.415 ms
+----------------------------------------------
+Start testing round with clientsNumber=45, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 533.0666666666667 ms
+Average client handling time: 3.5444444444444443 ms
+Average request handling time: 3.474814814814815 ms
+----------------------------------------------
+Start testing round with clientsNumber=50, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 547.6 ms
+Average client handling time: 3.582 ms
+Average request handling time: 3.49 ms
+----------------------------------------------
+Start testing round with clientsNumber=55, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 566.8545454545455 ms
+Average client handling time: 3.5406060606060605 ms
+Average request handling time: 3.4642424242424243 ms
+----------------------------------------------
+Start testing round with clientsNumber=60, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 582.5833333333334 ms
+Average client handling time: 3.6933333333333334 ms
+Average request handling time: 3.612222222222222 ms
+----------------------------------------------
+Start testing round with clientsNumber=65, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 580.7846153846153 ms
+Average client handling time: 3.556923076923077 ms
+Average request handling time: 3.468717948717949 ms
+----------------------------------------------
+Start testing round with clientsNumber=70, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 578.0142857142857 ms
+Average client handling time: 3.5704761904761906 ms
+Average request handling time: 3.486190476190476 ms
+----------------------------------------------
+Start testing round with clientsNumber=75, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 569.2533333333333 ms
+Average client handling time: 3.5475555555555554 ms
+Average request handling time: 3.472 ms
+----------------------------------------------
+Start testing round with clientsNumber=80, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 569.5125 ms
+Average client handling time: 3.54 ms
+Average request handling time: 3.4633333333333334 ms
+----------------------------------------------
+Start testing round with clientsNumber=85, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 576.5529411764705 ms
+Average client handling time: 3.5325490196078433 ms
+Average request handling time: 3.4545098039215687 ms
+----------------------------------------------
+Start testing round with clientsNumber=90, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 574.9222222222222 ms
+Average client handling time: 3.5207407407407407 ms
+Average request handling time: 3.437777777777778 ms
+----------------------------------------------
+Start testing round with clientsNumber=95, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 567.5894736842105 ms
+Average client handling time: 3.5410526315789475 ms
+Average request handling time: 3.459298245614035 ms
+Finish testing for server type: TCP_SINGLE_THREAD
+Start testing for server type: UDP_THREAD_POOL, iterating through CLIENTS from 5 to 100 with step=5
+Start testing round with clientsNumber=5, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 600.8 ms
+Average client handling time: 8.066666666666666 ms
+Average request handling time: 7.766666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=10, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 597.8 ms
+Average client handling time: 8.216666666666667 ms
+Average request handling time: 7.846666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=15, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 597.7333333333333 ms
+Average client handling time: 8.062222222222223 ms
+Average request handling time: 7.775555555555556 ms
+----------------------------------------------
+Start testing round with clientsNumber=20, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 632.7 ms
+Average client handling time: 9.315 ms
+Average request handling time: 9.078333333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=25, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 612.52 ms
+Average client handling time: 8.605333333333334 ms
+Average request handling time: 8.237333333333334 ms
+----------------------------------------------
+Start testing round with clientsNumber=30, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 624.6333333333333 ms
+Average client handling time: 8.923333333333334 ms
+Average request handling time: 8.614444444444445 ms
+----------------------------------------------
+Start testing round with clientsNumber=35, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 598.5428571428571 ms
+Average client handling time: 8.199047619047619 ms
+Average request handling time: 7.792380952380952 ms
+----------------------------------------------
+Start testing round with clientsNumber=40, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 610.2 ms
+Average client handling time: 8.468333333333334 ms
+Average request handling time: 8.214166666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=45, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 624.4888888888889 ms
+Average client handling time: 8.837777777777777 ms
+Average request handling time: 8.59925925925926 ms
+----------------------------------------------
+Start testing round with clientsNumber=50, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 627.84 ms
+Average client handling time: 9.022666666666666 ms
+Average request handling time: 8.726666666666667 ms
+----------------------------------------------
+Start testing round with clientsNumber=55, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 617.9090909090909 ms
+Average client handling time: 8.766666666666667 ms
+Average request handling time: 8.46 ms
+----------------------------------------------
+Start testing round with clientsNumber=60, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 620.0833333333334 ms
+Average client handling time: 8.802222222222222 ms
+Average request handling time: 8.583333333333334 ms
+----------------------------------------------
+Start testing round with clientsNumber=65, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 634.3076923076923 ms
+Average client handling time: 9.20051282051282 ms
+Average request handling time: 8.963589743589743 ms
+----------------------------------------------
+Start testing round with clientsNumber=70, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 625.8142857142857 ms
+Average client handling time: 8.922857142857143 ms
+Average request handling time: 8.658095238095239 ms
+----------------------------------------------
+Start testing round with clientsNumber=75, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 611.5733333333334 ms
+Average client handling time: 8.558666666666667 ms
+Average request handling time: 8.249333333333333 ms
+----------------------------------------------
+Start testing round with clientsNumber=80, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 617.65 ms
+Average client handling time: 8.72125 ms
+Average request handling time: 8.440833333333334 ms
+----------------------------------------------
+Start testing round with clientsNumber=85, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 605.8705882352941 ms
+Average client handling time: 8.387058823529411 ms
+Average request handling time: 8.044705882352941 ms
+----------------------------------------------
+Start testing round with clientsNumber=90, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 636.3111111111111 ms
+Average client handling time: 9.294814814814815 ms
+Average request handling time: 9.042592592592593 ms
+----------------------------------------------
+Start testing round with clientsNumber=95, arrayLength=1000, timeDelay=10, queriesCount=30
+Finish testing round, stats:
+Average client working time: 617.1684210526316 ms
+Average client handling time: 8.67263157894737 ms
+Average request handling time: 8.398245614035087 ms
+Finish testing for server type: UDP_THREAD_POOL

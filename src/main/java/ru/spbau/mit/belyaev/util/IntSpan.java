@@ -8,10 +8,12 @@ package ru.spbau.mit.belyaev.util;
 public class IntSpan {
     private final int to;
     private final int step;
+    private final int from;
     private int cur;
     private boolean firstTime;
 
     public IntSpan(int from, int to, int step) {
+        this.from = from;
         this.to = to;
         this.step = step;
         cur = from - step;
@@ -35,5 +37,17 @@ public class IntSpan {
 
     public boolean isChange() {
         return step != 0;
+    }
+
+    public int getFrom() {
+        return from;
+    }
+
+    public int getTo() {
+        return to;
+    }
+
+    public int getStep() {
+        return step;
     }
 }

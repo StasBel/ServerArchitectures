@@ -2,6 +2,7 @@ package ru.spbau.mit.belyaev.main;
 
 import ru.spbau.mit.belyaev.client.Client;
 import ru.spbau.mit.belyaev.client.ClientFactory;
+import ru.spbau.mit.belyaev.gui.UILogger;
 import ru.spbau.mit.belyaev.server.Server;
 import ru.spbau.mit.belyaev.util.IntSpan;
 import ru.spbau.mit.belyaev.util.Stat;
@@ -42,11 +43,11 @@ public class MainClient {
 
             final MainClient mainClient = new MainClient(ipAddress);
 
-            mainClient.test(serverType,
+            /*mainClient.test(serverType,
                     new IntSpan(20),
                     new IntSpan(300, 2000, 300),
                     new IntSpan(5),
-                    new IntSpan(20));
+                    new IntSpan(20));*/
 
             mainClient.stop();
 
@@ -56,26 +57,37 @@ public class MainClient {
         }
     }
 
-    public TestResult test(Server.Type serverType, IntSpan[] intSpansSet) throws IOException {
-        return test(serverType, intSpansSet[0], intSpansSet[1], intSpansSet[2], intSpansSet[3]);
+    public TestResult test(Server.Type serverType, IntSpan[] intSpansSet, UILogger logger) throws IOException {
+        return test(serverType, intSpansSet[0], intSpansSet[1], intSpansSet[2], intSpansSet[3], logger);
     }
 
-    public TestResult test(Server.Type serverType,
-                           IntSpan clientsNumberSpan,
-                           IntSpan arrayLengthSpan,
-                           IntSpan timeDelaySpan,
-                           IntSpan queriesCountSpan) throws IOException {
+    private TestResult test(Server.Type serverType,
+                            IntSpan clientsNumberSpan,
+                            IntSpan arrayLengthSpan,
+                            IntSpan timeDelaySpan,
+                            IntSpan queriesCountSpan,
+                            UILogger logger) throws IOException {
         IteratingType iteratingType = IteratingType.CLIENTS;
+        IntSpan iteratingSpan = clientsNumberSpan;
 
         if (arrayLengthSpan.isChange()) {
             iteratingType = IteratingType.ARRAY_LENGTH;
+            iteratingSpan = arrayLengthSpan;
         } else if (timeDelaySpan.isChange()) {
             iteratingType = IteratingType.TIME_DELAY;
+            iteratingSpan = timeDelaySpan;
         } else if (queriesCountSpan.isChange()) {
             iteratingType = IteratingType.QUERIES;
+            iteratingSpan = queriesCountSpan;
         }
 
         final TestResult result = new TestResult(iteratingType);
+
+        logger.logF("Start testing for server type: " + serverType.toString()
+                + ", iterating through " + iteratingType.toString()
+                + " from " + iteratingSpan.getFrom()
+                + " to " + iteratingSpan.getTo()
+                + " with step=" + iteratingSpan.getStep() + "\n");
 
         while (clientsNumberSpan.hasNext() || arrayLengthSpan.hasNext()
                 || timeDelaySpan.hasNext() || queriesCountSpan.hasNext()) {
@@ -84,7 +96,10 @@ public class MainClient {
             final int timeDelay = timeDelaySpan.next();
             final int queriesCount = queriesCountSpan.next();
 
-            System.out.println(clientsNumber + " " + arrayLength + " " + timeDelay + " " + queriesCount);
+            logger.logF("Start testing round with clientsNumber=" + clientsNumber
+                    + ", arrayLength=" + arrayLength
+                    + ", timeDelay=" + timeDelay
+                    + ", queriesCount=" + queriesCount + "\n");
 
             // final ExecutorService threadPool = Executors.newCachedThreadPool();
             final ExecutorService threadPool = Executors.newFixedThreadPool(THREADS_NUMBER);
@@ -122,16 +137,20 @@ public class MainClient {
 
             final StopServerAnswer stopServerAnswer = stopTestServer();
 
-            System.out.println(clientWorkingStat.calcAverageDouble());
-            System.out.println(stopServerAnswer.clientTime);
-            System.out.println(stopServerAnswer.requestTime);
-            System.out.println("---------------------------");
+            logger.logF("Finish testing round, stats:\n");
+            logger.logF("Average client working time: " + clientWorkingStat.calcAverageDouble() + " ms\n");
+            logger.logF("Average client handling time: " + stopServerAnswer.clientTime + " ms\n");
+            logger.logF("Average request handling time: " + stopServerAnswer.requestTime + " ms\n");
+
+            if (iteratingSpan.hasNext()) {
+                logger.logF("----------------------------------------------\n");
+            }
 
             result.addRound(clientsNumber, arrayLength, timeDelay, queriesCount,
                     clientWorkingStat.calcAverageDouble(), stopServerAnswer.clientTime, stopServerAnswer.requestTime);
         }
 
-        LOGGER.info("finish test");
+        logger.logF("Finish testing for server type: " + serverType.toString() + "\n");
 
         return result;
     }

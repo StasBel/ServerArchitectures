@@ -25,13 +25,15 @@ class TabbedChart extends JPanel {
     TabbedChart() {
         tabbedPane = new JTabbedPane();
         tabbedPane.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-        tabbedPane.setSize(1100, 400);
+        tabbedPane.setSize(GUI.WIDTH - 100, GUI.HEIGHT);
 
         uiLogger = new UILogger();
-        tabbedPane.addTab("uiLogger", uiLogger);
+        final JScrollPane scrollPane = new JScrollPane(uiLogger);
+        scrollPane.setPreferredSize(new Dimension(GUI.WIDTH - 100, GUI.HEIGHT));
+        tabbedPane.addTab("Logger", scrollPane);
 
         for (String tabName : tabsNames) {
-            final XYChart chart = new XYChart(900, 400, Styler.ChartTheme.Matlab);
+            final XYChart chart = new XYChart(GUI.WIDTH - 300, GUI.HEIGHT, Styler.ChartTheme.Matlab);
             final XYStyler styler = chart.getStyler();
             styler.setLegendPadding(10);
             styler.setLegendBorderColor(Color.WHITE);
@@ -80,6 +82,8 @@ class TabbedChart extends JPanel {
         chartPanel3.getChart().addSeries(serverType.toString(), testResult.getIteratingValues(),
                 testResult.getRequestHandlingTimes(), null);
         chartPanel3.getChart().setXAxisTitle(xAxisLabel);
+
+        uiLogger.logS("*** Update charts ***\n");
     }
 
     UILogger getUILogger() {
