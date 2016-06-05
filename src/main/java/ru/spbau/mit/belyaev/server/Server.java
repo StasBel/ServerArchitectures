@@ -69,7 +69,8 @@ public abstract class Server {
         TCP_THREAD_POOL,
         TCP_NON_BLOCKING,
         UDP_FOR_EACH_THREAD,
-        UDP_THREAD_POOL;
+        UDP_THREAD_POOL,
+        ALL;
 
         public static Type buildServerType(int ordinal) {
             return values()[ordinal];

@@ -12,7 +12,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile group: 'junit-addons', name: 'junit-addons', version: '1.4'
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.0.0-beta-2'
-    compile 'org.knowm.xchart:xchart:3.0.4'
+    compile group: 'org.knowm.xchart', name: 'xchart', version: '3.0.4'
 }
 
 checkstyle {

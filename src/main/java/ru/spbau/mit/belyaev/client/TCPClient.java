@@ -32,6 +32,8 @@ class TCPClient extends Client {
 
             final Message.Answer answer = Util.parseAnswer(socket);
 
+            assert answer.getCount() == query.getCount();
+
             if (answer.getCount() != query.getCount()) {
                 LOGGER.severe("Got bad answer!");
             }

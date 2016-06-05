@@ -32,4 +32,8 @@ public class IntSpan {
         firstTime = false;
         return result;
     }
+
+    public boolean isChange() {
+        return step != 0;
+    }
 }

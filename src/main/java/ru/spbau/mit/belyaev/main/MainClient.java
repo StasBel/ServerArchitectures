@@ -30,7 +30,7 @@ public class MainClient {
     private final Socket socket;
     private final String ipAddress;
 
-    private MainClient(String ipAddress) throws IOException {
+    public MainClient(String ipAddress) throws IOException {
         this.ipAddress = ipAddress;
         socket = new Socket(InetAddress.getByName(ipAddress), MainServer.MAIN_SERVER_PORT_NUMBER);
     }
@@ -56,12 +56,26 @@ public class MainClient {
         }
     }
 
-    private List<TestLapInfo> test(Server.Type serverType,
-                                   IntSpan clientsNumberSpan,
-                                   IntSpan arrayLengthSpan,
-                                   IntSpan timeDelaySpan,
-                                   IntSpan queriesCountSpan) throws IOException {
-        final List<TestLapInfo> result = new LinkedList<>();
+    public TestResult test(Server.Type serverType, IntSpan[] intSpansSet) throws IOException {
+        return test(serverType, intSpansSet[0], intSpansSet[1], intSpansSet[2], intSpansSet[3]);
+    }
+
+    public TestResult test(Server.Type serverType,
+                           IntSpan clientsNumberSpan,
+                           IntSpan arrayLengthSpan,
+                           IntSpan timeDelaySpan,
+                           IntSpan queriesCountSpan) throws IOException {
+        IteratingType iteratingType = IteratingType.CLIENTS;
+
+        if (arrayLengthSpan.isChange()) {
+            iteratingType = IteratingType.ARRAY_LENGTH;
+        } else if (timeDelaySpan.isChange()) {
+            iteratingType = IteratingType.TIME_DELAY;
+        } else if (queriesCountSpan.isChange()) {
+            iteratingType = IteratingType.QUERIES;
+        }
+
+        final TestResult result = new TestResult(iteratingType);
 
         while (clientsNumberSpan.hasNext() || arrayLengthSpan.hasNext()
                 || timeDelaySpan.hasNext() || queriesCountSpan.hasNext()) {
@@ -113,8 +127,8 @@ public class MainClient {
             System.out.println(stopServerAnswer.requestTime);
             System.out.println("---------------------------");
 
-            result.add(new TestLapInfo(clientsNumber, arrayLength, timeDelay, queriesCount,
-                    clientWorkingStat.calcAverageDouble(), stopServerAnswer.clientTime, stopServerAnswer.requestTime));
+            result.addRound(clientsNumber, arrayLength, timeDelay, queriesCount,
+                    clientWorkingStat.calcAverageDouble(), stopServerAnswer.clientTime, stopServerAnswer.requestTime);
         }
 
         LOGGER.info("finish test");
@@ -122,7 +136,7 @@ public class MainClient {
         return result;
     }
 
-    private void stop() throws IOException {
+    public void stop() throws IOException {
         socket.close();
     }
 
@@ -150,53 +164,70 @@ public class MainClient {
         );
     }
 
-    public static class TestLapInfo {
-        private final int clientsNumber;
-        private final int arrayLength;
-        private final int timeDelay;
-        private final int queriesCount;
+    public enum IteratingType { // wil use only three of them
+        CLIENTS,
+        ARRAY_LENGTH,
+        TIME_DELAY,
+        QUERIES
+    }
 
-        private final double clientWorkingTime;
-        private final double clientHandlingTime;
-        private final double requestHandlingTime;
+    public static class TestResult {
+        private final IteratingType iteratingType;
 
-        public TestLapInfo(int clientsNumber, int arrayLength, int timeDelay, int queriesCount,
-                           double clientWorkingTime, double clientHandlingTime, double requestHandlingTime) {
-            this.clientsNumber = clientsNumber;
-            this.arrayLength = arrayLength;
-            this.timeDelay = timeDelay;
-            this.queriesCount = queriesCount;
-            this.clientWorkingTime = clientWorkingTime;
-            this.clientHandlingTime = clientHandlingTime;
-            this.requestHandlingTime = requestHandlingTime;
+        private final List<Integer> iteratingValues;
+
+        private final List<Double> clientWorkingTimes;
+        private final List<Double> clientHandlingTimes;
+        private final List<Double> requestHandlingTimes;
+
+        TestResult(IteratingType iteratingType) {
+            this.iteratingType = iteratingType;
+            iteratingValues = new LinkedList<>();
+            clientWorkingTimes = new LinkedList<>();
+            clientHandlingTimes = new LinkedList<>();
+            requestHandlingTimes = new LinkedList<>();
         }
 
-        public int getClientsNumber() {
-            return clientsNumber;
+        private void addRound(int clientsNumber, int arrayLength, int timeDelay, int queriesCount,
+                              double clientWorkingTime, double clientHandlingTime, double requestHandlingTime) {
+            switch (iteratingType) {
+                case CLIENTS:
+                    iteratingValues.add(clientsNumber);
+                    break;
+                case ARRAY_LENGTH:
+                    iteratingValues.add(arrayLength);
+                    break;
+                case TIME_DELAY:
+                    iteratingValues.add(timeDelay);
+                    break;
+                case QUERIES:
+                    iteratingValues.add(queriesCount);
+                    break;
+            }
+
+            clientWorkingTimes.add(clientWorkingTime);
+            clientHandlingTimes.add(clientHandlingTime);
+            requestHandlingTimes.add(requestHandlingTime);
         }
 
-        public int getArrayLength() {
-            return arrayLength;
+        public List<Integer> getIteratingValues() {
+            return iteratingValues;
         }
 
-        public int getTimeDelay() {
-            return timeDelay;
+        public List<Double> getClientWorkingTimes() {
+            return clientWorkingTimes;
         }
 
-        public int getQueriesCount() {
-            return queriesCount;
+        public List<Double> getClientHandlingTimes() {
+            return clientHandlingTimes;
         }
 
-        public double getClientWorkingTime() {
-            return clientWorkingTime;
+        public List<Double> getRequestHandlingTimes() {
+            return requestHandlingTimes;
         }
 
-        public double getClientHandlingTime() {
-            return clientHandlingTime;
-        }
-
-        public double getRequestHandlingTime() {
-            return requestHandlingTime;
+        public IteratingType getIteratingType() {
+            return iteratingType;
         }
     }
 
