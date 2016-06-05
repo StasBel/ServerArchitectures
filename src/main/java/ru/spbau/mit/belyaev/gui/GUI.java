@@ -32,7 +32,7 @@ public class GUI extends JFrame {
     };
     private final static Supplier<IntSpan[]> TEST_CLIENTS = () -> new IntSpan[]{
             new IntSpan(5, 100, 5), // clients
-            new IntSpan(100), // length
+            new IntSpan(1000), // length
             new IntSpan(10), // delay
             new IntSpan(10) //queries
     };
