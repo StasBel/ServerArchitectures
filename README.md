@@ -32,10 +32,10 @@ queries=30
 ![Граффик](src/main/resources/clients/request_handling_time.png "Граффик") <br />
 
 ### test №3
-clients=20,
-length=1000,
-delay=from 0 to 480 step 30,
-queries=20
+clients=10,
+length=100,
+delay=from 0 to 500 step 50,
+queries=10
 
 ![Граффик](src/main/resources/delay/client_working_time.png "Граффик") <br />
 ![Граффик](src/main/resources/delay/client_handling_time.png "Граффик") <br />

@@ -26,19 +26,19 @@ public class GUI extends JFrame {
             Server.Type.UDP_THREAD_POOL};
     private final static Supplier<IntSpan[]> TEST_LENGTH = () -> new IntSpan[]{
             new IntSpan(15), // clients
-            new IntSpan(100, 2000, 100), // length
+            new IntSpan(100, 2000, 300), // length
             new IntSpan(5), // delay
             new IntSpan(15) //queries
     };
     private final static Supplier<IntSpan[]> TEST_CLIENTS = () -> new IntSpan[]{
             new IntSpan(5, 100, 5), // clients
-            new IntSpan(1000), // length
+            new IntSpan(100), // length
             new IntSpan(10), // delay
-            new IntSpan(30) //queries
+            new IntSpan(10) //queries
     };
     private final static Supplier<IntSpan[]> TEST_DELAY = () -> new IntSpan[]{
             new IntSpan(10), // clients
-            new IntSpan(100), // length
+            new IntSpan(500), // length
             new IntSpan(0, 500, 50), // delay
             new IntSpan(10) //queries
     };
@@ -76,7 +76,7 @@ public class GUI extends JFrame {
 
             final GUI gui = new GUI(ipAddress);
 
-            gui.performTest(serverTypes, TEST_DELAY);
+            gui.performTest(serverTypes, TEST_CLIENTS);
 
             gui.close();
 
