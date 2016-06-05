@@ -9,8 +9,6 @@
 
 результаты лежат в 'src/main/resources'
 
-# НЕ ОКОНЧАТЕЛЬНАЯ ВЕРСИЯ
-
 ### test №1
 clients=15,
 length=from 100 to 2000 step 100,
