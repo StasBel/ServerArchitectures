@@ -23,7 +23,7 @@ queries=15
 clients=from 5 to 100 step 5,
 length=1000,
 delay=10,
-queries=30
+queries=10
 
 ![Граффик](src/main/resources/clients/client_working_time.png "Граффик") <br />
 ![Граффик](src/main/resources/clients/client_handling_time.png "Граффик") <br />
