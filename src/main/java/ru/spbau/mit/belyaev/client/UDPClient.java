@@ -8,6 +8,7 @@ import ru.spbau.mit.belyaev.util.Util;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.net.SocketTimeoutException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,7 +23,7 @@ import static ru.spbau.mit.belyaev.server.UDPServer.UDP_BUFFER_SIZE;
 
 class UDPClient extends Client {
     private static final Logger LOGGER = Logger.getLogger(UDPClient.class.getName());
-    private static final int UDP_TIMEOUT = 10000;
+    private static final int UDP_TIMEOUT = 1000;
 
     private final byte[] buffer;
     private InetSocketAddress socketAddress;
@@ -41,14 +42,14 @@ class UDPClient extends Client {
                          AtomicInteger alreadyDone, Stat clientWorkingStat) {
         try {
 
-            if (alreadyDone.intValue() == 0) {
-                workingTime.start();
-            }
-
             if (datagramSocket == null) {
                 socketAddress = new InetSocketAddress(ipAddress, port);
                 datagramSocket = new DatagramSocket();
                 datagramSocket.setSoTimeout(UDP_TIMEOUT);
+            }
+
+            if (alreadyDone.intValue() == 0) {
+                workingTime.start();
             }
 
             final Message.Query query = makeQuery();
@@ -70,7 +71,20 @@ class UDPClient extends Client {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            if (e instanceof SocketTimeoutException) {
+                alreadyDone.incrementAndGet();
+
+                if (alreadyDone.intValue() != queriesCount) {
+                    threadPool.schedule(() -> runRound(workingTime, threadPool, alreadyDone, clientWorkingStat),
+                            timeDelay, TimeUnit.MILLISECONDS);
+                } else {
+                    workingTime.stop();
+                    clientWorkingStat.add(workingTime);
+
+                    datagramSocket.close();
+                }
+            }
+
             LOGGER.warning("exception in runRound");
         }
     }

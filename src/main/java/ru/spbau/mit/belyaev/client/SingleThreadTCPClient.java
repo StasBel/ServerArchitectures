@@ -29,11 +29,11 @@ class SingleThreadTCPClient extends Client {
                          AtomicInteger alreadyDone, Stat clientWorkingStat) {
         try {
 
+            final Socket socket = new Socket(ipAddress, port);
+
             if (alreadyDone.intValue() == 0) {
                 workingTime.start();
             }
-
-            final Socket socket = new Socket(ipAddress, port);
 
             final Message.Query query = makeQuery();
 

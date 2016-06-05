@@ -31,12 +31,12 @@ class TCPClient extends Client {
                          AtomicInteger alreadyDone, Stat clientWorkingStat) {
         try {
 
-            if (alreadyDone.intValue() == 0) {
+            if (socket == null) {
+                socket = new Socket(ipAddress, port);
                 workingTime.start();
             }
 
-            if (socket == null) {
-                socket = new Socket(ipAddress, port);
+            if (alreadyDone.intValue() == 0) {
                 workingTime.start();
             }
 
